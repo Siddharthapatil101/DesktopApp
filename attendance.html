@@ -1,0 +1,132 @@
+<div id="attendance" class="content-section">
+    <div class="container-fluid">
+       
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Attendance Management</h2>
+                    <div class="status-display"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Total Days</h6>
+                        <h3 id="totalDays" class="mb-0">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Present Days</h6>
+                        <h3 id="presentDays" class="mb-0">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Total Hours</h6>
+                        <h3 id="totalHours" class="mb-0">0h 0m</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Average Hours</h6>
+                        <h3 id="avgHours" class="mb-0">0h 0m</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Break Time</h6>
+                        <h3 id="totalBreaks" class="mb-0">0h 0m</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h6 class="card-title text-muted">Late Arrivals</h6>
+                        <h3 id="lateArrivals" class="mb-0">0</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <label for="historyFilter" class="form-label">Quick Filter</label>
+                                <select id="historyFilter" class="form-select">
+                                    <option value="all">All Records</option>
+                                    <option value="today">Today</option>
+                                    <option value="week">This Week</option>
+                                    <option value="month">This Month</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="dateRange" class="form-label">Custom Date Range</label>
+                                <input type="text" id="dateRange" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-5 text-end">
+                                <button id="exportAttendance" class="btn btn-primary">
+                                    <i class="fas fa-download me-2"></i>Export Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="attendanceTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Check In</th>
+                                        <th>Check Out</th>
+                                        <th>Break Time</th>
+                                        <th>Total Hours</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="attendanceDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Attendance Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="attendanceDetails"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDM Security Dashboard</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Bar -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>MDM Security</h1>
+                    <p>Employee Dashboard</p>
+                </div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="time-display">
+                <i class="fas fa-clock"></i>
+                <span id="currentTime">12:49</span>
+            </div>
+            <div class="date-display">
+                <span id="currentDate">Tuesday, August 5, 2025</span>
+            </div>
+            <div class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h4 id="navbarFullName">John Doe</h4>
+                    <p>Software Engineer</p>
+                </div>
+                <div class="status-indicator"></div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h6>MAIN</h6>
+                    <ul class="nav-list">
+                        <li class="nav-item active">
+                            <a href="#dashboard" class="nav-link">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#timeoff" class="nav-link">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Time Off</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#attendance" class="nav-link">
+                                <i class="fas fa-clock"></i>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h6>TOOLS</h6>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#settings" class="nav-link">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#profile" class="nav-link">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section active">
+                <!-- Greeting Section -->
+                <div class="greeting-section">
+                    <div class="greeting-content">
+                        <h1>Good afternoon, John! 👋</h1>
+                        <p>Here's your work summary for today</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="dashboardSearch" placeholder="Search reports or activities...">
+                            <button class="search-btn" id="searchBtn">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-cards">
+                    <div class="summary-card today-work">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>0h 2m</h2>
+                            <p>Today's Work</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+12%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card attendance-rate">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>95%</h2>
+                            <p>Attendance Rate</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+3%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card days-available">
+                        <div class="card-icon">
+                            <i class="fas fa-umbrella"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>15</h2>
+                            <p>Days Available</p>
+                            <div class="trend neutral">
+                                <span>- 0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card this-week">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>32h</h2>
+                            <p>This Week</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Widgets -->
+                <div class="dashboard-widgets">
+                    <!-- Time Tracking Widget -->
+                    <div class="widget time-tracking">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-clock"></i>
+                                <h3>Time Tracking</h3>
+                            </div>
+                            <p>Track your work hours</p>
+                            <div class="status-badge working" style="display: none;">
+                                <span>WORKING</span>
+                            </div>
+                        </div>
+                        <div class="widget-content">
+                            <div class="timer-display">
+                                <div class="timer" id="workTimer">00:02:52</div>
+                                <p>CURRENT SESSION</p>
+                            </div>
+                            <div class="timer-actions">
+                                <button class="btn btn-checkin">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Check In</span>
+                                </button>
+                                <button class="btn btn-break" disabled>
+                                    <i class="fas fa-pause"></i>
+                                    <span>Break</span>
+                                </button>
+                                <button class="btn btn-checkout" disabled>
+                                    <i class="fas fa-stop"></i>
+                                    <span>Check Out</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Progress Widget -->
+                    <div class="widget weekly-progress">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-list"></i>
+                                <h3>Weekly Progress</h3>
+                            </div>
+                            <p>Your work progress this week</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Work Hours</span>
+                                    <span>32h / 40h</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%"></div>
+                                </div>
+                                <span class="progress-percentage">80%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Break Time</span>
+                                    <span>2h / 4h</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 50%"></div>
+                                </div>
+                                <span class="progress-percentage">50%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Overtime</span>
+                                    <span>4h</span>
+                                </div>
+                                <div class="progress-bar overtime">
+                                    <div class="progress-fill" style="width: 25%"></div>
+                                </div>
+                                <span class="progress-percentage">+10%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leave Balance Widget -->
+                    <div class="widget leave-balance">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-umbrella"></i>
+                                <h3>Leave Balance</h3>
+                            </div>
+                            <p>Your available time off</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="leave-total">
+                                <h2>15</h2>
+                                <p>DAYS AVAILABLE</p>
+                            </div>
+                            <div class="leave-types">
+                                <div class="leave-type vacation">
+                                    <i class="fas fa-plane"></i>
+                                    <div class="leave-info">
+                                        <span>Vacation</span>
+                                        <span>10 days</span>
+                                    </div>
+                                </div>
+                                <div class="leave-type sick">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <div class="leave-info">
+                                        <span>Sick Leave</span>
+                                        <span>3 days</span>
+                                    </div>
+                                </div>
+                                <div class="leave-type personal">
+                                    <i class="fas fa-user"></i>
+                                    <div class="leave-info">
+                                        <span>Personal</span>
+                                        <span>2 days</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-request-leave">
+                                <i class="fas fa-plus"></i>
+                                <span>Request Leave</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Widgets Row -->
+                <div class="dashboard-widgets-row">
+                    <!-- Quick Actions Widget -->
+                    <div class="widget quick-actions">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-bolt"></i>
+                                <h3>Quick Actions</h3>
+                            </div>
+                            <p>Common tasks and shortcuts</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="actions-grid">
+                                <button class="action-btn" id="requestTimeOffBtn">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>Request Time Off</span>
+                                </button>
+                                <button class="action-btn" id="viewScheduleBtn">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>View Schedule</span>
+                                </button>
+                                <button class="action-btn" id="reportIssueBtn">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Report Issue</span>
+                                </button>
+                                <button class="action-btn" id="contactHRBtn">
+                                    <i class="fas fa-headset"></i>
+                                    <span>Contact HR</span>
+                                </button>
+                                                <button class="action-btn" id="viewReportsBtn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>View Reports</span>
+                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity Widget -->
+                    <div class="widget recent-activity">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-history"></i>
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <p>Your latest work activities</p>
+                            <button class="btn btn-sm btn-outline-primary" id="refreshActivityBtn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="widget-content">
+                            <div class="activity-list" id="activityList">
+                                <!-- Activity items will be loaded dynamically -->
+                                <div class="activity-loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading activities...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events Widget -->
+                    <div class="widget upcoming-events">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-calendar-day"></i>
+                                <h3>Upcoming Events</h3>
+                            </div>
+                            <p>Your scheduled events and deadlines</p>
+                            <button class="btn btn-sm btn-outline-primary" id="refreshEventsBtn">
+                                <i class="fas fa-sync-alt"></i>
+                                <span>Refresh</span>
+                            </button>
+                        </div>
+                        <div class="widget-content">
+                            <div class="events-list" id="eventsList">
+                                <!-- Events will be loaded dynamically -->
+                                <div class="events-loading">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <span>Loading events...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Insights Widget -->
+                    <div class="widget insights">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-lightbulb"></i>
+                                <h3>Insights</h3>
+                            </div>
+                            <p>Work patterns and recommendations</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="insight-item">
+                                <div class="insight-label">
+                                    <span>Productivity Score</span>
+                                    <span>↑ +5% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 92%"></div>
+                                </div>
+                                <span class="progress-percentage">92%</span>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-label">
+                                    <span>Break Efficiency</span>
+                                    <span>↑ +12% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 78%"></div>
+                                </div>
+                                <span class="progress-percentage">78%</span>
+                            </div>
+                            <div class="insight-item">
+                                <div class="insight-label">
+                                    <span>On-time Arrival</span>
+                                    <span>↑ +3% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%"></div>
+                                </div>
+                                <span class="progress-percentage">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Off Section -->
+            <div id="timeoff" class="content-section">
+                <div class="section-header">
+                    <h1>Time Off Management</h1>
+                    <p>Request and manage your time off</p>
+                </div>
+
+                <!-- Key Metrics -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>79.5%</h3>
+                            <p>Approval Rate</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+2.3% this month</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>1.2 days</h3>
+                            <p>Avg. Response Time</p>
+                            <div class="trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>-0.3 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>18</h3>
+                            <p>Active Requests</p>
+                            <div class="trend neutral">
+                                <span>— No change</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Overview -->
+                <div class="overview-section">
+                    <div class="overview-header">
+                        <h3>Monthly Overview</h3>
+                        <div class="overview-tabs">
+                            <button class="tab-btn active">This Month</button>
+                            <button class="tab-btn">Last Month</button>
+                        </div>
+                    </div>
+                    <div class="overview-content">
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i>
+                            <p>Leave distribution and trends</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Balance Section -->
+                <div class="leave-balance-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-umbrella"></i> Leave Balance</h3>
+                        <p>Your available time off days</p>
+                    </div>
+                    <!-- Leave balance content will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Request Time Off Form -->
+            <div id="request-timeoff" class="content-section">
+                <div class="form-container">
+                    <div class="form-header">
+                        <h2><i class="fas fa-calendar-plus"></i> Request Time Off</h2>
+                        <p>Submit a new time off request</p>
+                    </div>
+                    
+                    <form class="timeoff-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Leave Type</label>
+                                <select class="form-control">
+                                    <option>Select leave type</option>
+                                    <option>Vacation</option>
+                                    <option>Sick Leave</option>
+                                    <option>Personal</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Request Date</label>
+                                <input type="text" class="form-control" value="08/05/2025" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="mm/dd/yyyy">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>End Date</label>
+                                <div class="input-with-icon">
+                                    <input type="text" class="form-control" placeholder="mm/dd/yyyy">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Duration (Days)</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Priority</label>
+                                <select class="form-control">
+                                    <option>Select priority</option>
+                                    <option>Low</option>
+                                    <option>Medium</option>
+                                    <option>High</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Reason for Leave</label>
+                            <textarea class="form-control" rows="4" placeholder="Please provide a detailed reason for your time off request..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Emergency Contact</label>
+                            <input type="text" class="form-control" placeholder="Name and phone number">
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary">
+                                <i class="fas fa-save"></i>
+                                <span>Save Draft</span>
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Submit Request</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="recent-requests">
+                    <div class="section-header">
+                        <h3><i class="fas fa-history"></i> Recent Requests</h3>
+                        <p>Your latest time off requests</p>
+                    </div>
+                    <div class="request-item">
+                        <span class="request-type">Vacation</span>
+                        <span class="request-status approved">
+                            <i class="fas fa-check"></i>
+                            <span>Approved</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attendance Section -->
+            <div id="attendance" class="content-section">
+                <div class="section-header">
+                    <h1>Attendance</h1>
+                    <p>Simple attendance tracking</p>
+                </div>
+
+                <!-- Simple Attendance Overview -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>22</h3>
+                            <p>Days Present</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>176h</h3>
+                            <p>Total Hours</p>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="metric-content">
+                            <h3>95.7%</h3>
+                            <p>Attendance Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Simple Recent Attendance -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <i class="fas fa-history"></i>
+                            <h3>Recent Attendance</h3>
+                        </div>
+                        <p>Your last 5 days</p>
+                    </div>
+                    <div class="widget-content">
+                        <div class="attendance-list">
+                            <div class="attendance-item present">
+                                <div class="attendance-date">
+                                    <span class="day">Today</span>
+                                    <span class="date">Aug 5, 2025</span>
+                                </div>
+                                <div class="attendance-time">
+                                    <span class="checkin">09:00 AM</span>
+                                    <span class="checkout">06:00 PM</span>
+                                </div>
+                                <div class="attendance-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item present">
+                                <div class="attendance-date">
+                                    <span class="day">Yesterday</span>
+                                    <span class="date">Aug 4, 2025</span>
+                                </div>
+                                <div class="attendance-time">
+                                    <span class="checkin">08:45 AM</span>
+                                    <span class="checkout">05:30 PM</span>
+                                </div>
+                                <div class="attendance-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item weekend">
+                                <div class="attendance-date">
+                                    <span class="day">Saturday</span>
+                                    <span class="date">Aug 3, 2025</span>
+                                </div>
+                                <div class="attendance-time">
+                                    <span class="checkin">-</span>
+                                    <span class="checkout">-</span>
+                                </div>
+                                <div class="attendance-status">
+                                    <span class="status-badge weekend">Weekend</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item present">
+                                <div class="attendance-date">
+                                    <span class="day">Friday</span>
+                                    <span class="date">Aug 2, 2025</span>
+                                </div>
+                                <div class="attendance-time">
+                                    <span class="checkin">09:15 AM</span>
+                                    <span class="checkout">06:15 PM</span>
+                                </div>
+                                <div class="attendance-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                            <div class="attendance-item present">
+                                <div class="attendance-date">
+                                    <span class="day">Thursday</span>
+                                    <span class="date">Aug 1, 2025</span>
+                                </div>
+                                <div class="attendance-time">
+                                    <span class="checkin">09:00 AM</span>
+                                    <span class="checkout">06:00 PM</span>
+                                </div>
+                                <div class="attendance-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings" class="content-section">
+                <div class="section-header">
+                    <h1><i class="fas fa-cog"></i> Settings</h1>
+                    <p>Manage your application preferences</p>
+                </div>
+
+                <div class="settings-container">
+                    <!-- Profile Settings -->
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-user"></i> Profile Settings</h3>
+                            <p>Update your personal information</p>
+                        </div>
+                        <div class="settings-card-content">
+                            <form class="settings-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Full Name</label>
+                                        <input type="text" class="form-control" value="John Doe" placeholder="Enter your full name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" class="form-control" value="john.doe@company.com" placeholder="Enter your email">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="tel" class="form-control" value="+1 (555) 123-4567" placeholder="Enter your phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Department</label>
+                                        <input type="text" class="form-control" value="Software Engineering" placeholder="Enter your department">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Profile Picture</label>
+                                    <div class="profile-picture-upload">
+                                        <div class="profile-picture-preview">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary">
+                                            <i class="fas fa-upload"></i>
+                                            <span>Upload Photo</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save"></i>
+                                        <span>Save Changes</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Password Settings -->
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-lock"></i> Password Settings</h3>
+                            <p>Change your account password</p>
+                        </div>
+                        <div class="settings-card-content">
+                            <form class="password-form">
+                                <div class="form-group">
+                                    <label>Current Password</label>
+                                    <div class="password-input-group">
+                                        <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password">
+                                        <button type="button" class="btn btn-outline-secondary password-toggle" onclick="togglePassword('currentPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <div class="password-input-group">
+                                        <input type="password" class="form-control" id="newPassword" placeholder="Enter new password">
+                                        <button type="button" class="btn btn-outline-secondary password-toggle" onclick="togglePassword('newPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm New Password</label>
+                                    <div class="password-input-group">
+                                        <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                                        <button type="button" class="btn btn-outline-secondary password-toggle" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="password-strength" id="passwordStrength" style="display: none;">
+                                    <div class="strength-bar">
+                                        <div class="strength-fill" id="strengthFill"></div>
+                                    </div>
+                                    <span class="strength-text" id="strengthText">Password strength</span>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-key"></i>
+                                        <span>Change Password</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-bell"></i> Notification Settings</h3>
+                            <p>Configure your notification preferences</p>
+                        </div>
+                        <div class="settings-card-content">
+                            <div class="settings-option">
+                                <div class="option-info">
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive notifications via email</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-info">
+                                    <h4>Desktop Notifications</h4>
+                                    <p>Show notifications on your desktop</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="settings-option">
+                                <div class="option-info">
+                                    <h4>Time Tracking Reminders</h4>
+                                    <p>Remind me to check in/out</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="settings-card-header">
+                            <h3><i class="fas fa-palette"></i> Appearance</h3>
+                            <p>Customize the look and feel</p>
+                        </div>
+                        <div class="settings-card-content">
+                            <div class="settings-option">
+                                <div class="option-info">
+                                    <h4>Dark Mode</h4>
+                                    <p>Use dark theme for the application</p>
+                                </div>
+                                <div class="option-control">
+                                    <label class="switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Language</label>
+                                <select class="form-control">
+                                    <option>English</option>
+                                    <option>Spanish</option>
+                                    <option>French</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile" class="content-section">
+                <div class="section-header">
+                    <h1><i class="fas fa-user"></i> Profile</h1>
+                    <p>Your personal information and statistics</p>
+                </div>
+
+                <div class="profile-container">
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2>John Doe</h2>
+                            <p class="profile-title">Software Engineer</p>
+                            <p class="profile-department">Engineering Department</p>
+                            <div class="profile-status">
+                                <span class="status-badge active">Active</span>
+                                <span class="employee-id">ID: EMP001</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Statistics -->
+                    <div class="profile-stats">
+                        <div class="stats-header">
+                            <h3>Performance Statistics</h3>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="attendanceRate">95.7%</h3>
+                                    <p>Attendance Rate</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="totalHours">176h</h3>
+                                    <p>Total Hours</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-umbrella"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="daysAvailable">15</h3>
+                                    <p>Days Available</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="stat-content">
+                                    <h3 id="performanceRating">4.8</h3>
+                                    <p>Performance Rating</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="profile-details">
+                        <div class="details-card">
+                            <div class="details-header">
+                                <h3><i class="fas fa-info-circle"></i> Personal Information</h3>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="editPersonalInfo()">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Edit</span>
+                                </button>
+                            </div>
+                            <div class="details-grid" id="personalInfoGrid">
+                                <div class="detail-item">
+                                    <label>Full Name</label>
+                                    <span>John Michael Doe</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Email</label>
+                                    <span>john.doe@company.com</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Phone</label>
+                                    <span>+1 (555) 123-4567</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Date of Birth</label>
+                                    <span>March 15, 1990</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Address</label>
+                                    <span>123 Main Street, City, State 12345</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Emergency Contact</label>
+                                    <span>Jane Doe - +1 (555) 987-6543</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="details-card">
+                            <div class="details-header">
+                                <h3><i class="fas fa-briefcase"></i> Work Information</h3>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="editWorkInfo()">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Edit</span>
+                                </button>
+                            </div>
+                            <div class="details-grid" id="workInfoGrid">
+                                <div class="detail-item">
+                                    <label>Employee ID</label>
+                                    <span>EMP001</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Department</label>
+                                    <span>Software Engineering</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Position</label>
+                                    <span>Senior Software Engineer</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Hire Date</label>
+                                    <span>January 15, 2020</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Manager</label>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                                <div class="detail-item">
+                                    <label>Work Location</label>
+                                    <span>Main Office - Floor 3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="renderer.js"></script>
+    <script>
+        const fullName = localStorage.getItem('fullName');
+        if (fullName) {
+            const navbarFullName = document.getElementById('navbarFullName');
+            if (navbarFullName) navbarFullName.textContent = fullName;
+        }
+    </script>
+</body>
+</html>
