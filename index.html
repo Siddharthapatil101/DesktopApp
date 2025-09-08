@@ -10,20 +10,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 <body>
-    <!-- Header Bar -->
     <header class="header">
         <div class="header-left">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-shield-alt"></i>
+            <a href="#dashboard" class="logo-link">
+                <div class="logo" style="display:flex; align-items:center;">
+                    <img src="assets/Vector 13.png" alt="MDM Logo" style="height:40px; width:auto;">
+                    <div class="logo-text" style="display:flex; flex-direction:column; align-items:center; margin-left:1rem;">
+                        <h1 style="margin:2;">MDM Security</h1>
+                        <p style="margin:0;">Employee Dashboard</p>
+                    </div>
                 </div>
-                <div class="logo-text">
-                    <h1>MDM Security</h1>
-                    <p>Employee Dashboard</p>
-                </div>
-            </div>
+            </a>
         </div>
         <div class="header-right">
             <div class="time-display">
@@ -43,7 +44,7 @@
                 </div>
                 <div class="user-info">
                     <h4 id="navbarFullName">John Doe</h4>
-                    <p>Software Engineer</p>
+                    <h5 id="navbarPosition"></h5>
                 </div>
                 <div class="status-indicator"></div>
             </div>
@@ -51,7 +52,7 @@
     </header>
 
     <div class="main-container">
-        <!-- Sidebar -->
+        
         <aside class="sidebar">
             <nav class="sidebar-nav">
                 <div class="nav-section">
@@ -97,14 +98,12 @@
             </nav>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Dashboard Section -->
             <div id="dashboard" class="content-section active">
-                <!-- Greeting Section -->
                 <div class="greeting-section">
                     <div class="greeting-content">
-                        <h1>Good afternoon, John! 👋</h1>
+                      
+                        <h1 id="navbarFullName">Good afternoon,👋</h1>
                         <p>Here's your work summary for today</p>
                     </div>
                     <div class="search-section">
@@ -118,7 +117,6 @@
                     </div>
                 </div>
 
-                <!-- Summary Cards -->
                 <div class="summary-cards">
                     <div class="summary-card today-work">
                         <div class="card-icon">
@@ -176,9 +174,7 @@
                     </div>
                 </div>
 
-                <!-- Dashboard Widgets -->
                 <div class="dashboard-widgets">
-                    <!-- Time Tracking Widget -->
                     <div class="widget time-tracking">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -212,7 +208,6 @@
                         </div>
                     </div>
 
-                    <!-- Weekly Progress Widget -->
                     <div class="widget weekly-progress">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -255,7 +250,7 @@
                         </div>
                     </div>
 
-                    <!-- Leave Balance Widget -->
+                 
                     <div class="widget leave-balance">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -300,9 +295,7 @@
                     </div>
                 </div>
 
-                <!-- Additional Widgets Row -->
                 <div class="dashboard-widgets-row">
-                    <!-- Quick Actions Widget -->
                     <div class="widget quick-actions">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -337,7 +330,6 @@
                         </div>
                     </div>
 
-                    <!-- Recent Activity Widget -->
                     <div class="widget recent-activity">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -352,7 +344,6 @@
                         </div>
                         <div class="widget-content">
                             <div class="activity-list" id="activityList">
-                                <!-- Activity items will be loaded dynamically -->
                                 <div class="activity-loading">
                                     <i class="fas fa-spinner fa-spin"></i>
                                     <span>Loading activities...</span>
@@ -361,7 +352,6 @@
                         </div>
                     </div>
 
-                    <!-- Upcoming Events Widget -->
                     <div class="widget upcoming-events">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -376,7 +366,6 @@
                         </div>
                         <div class="widget-content">
                             <div class="events-list" id="eventsList">
-                                <!-- Events will be loaded dynamically -->
                                 <div class="events-loading">
                                     <i class="fas fa-spinner fa-spin"></i>
                                     <span>Loading events...</span>
@@ -385,7 +374,6 @@
                         </div>
                     </div>
 
-                    <!-- Insights Widget -->
                     <div class="widget insights">
                         <div class="widget-header">
                             <div class="widget-title">
@@ -430,14 +418,14 @@
                 </div>
             </div>
 
-            <!-- Time Off Section -->
+           
             <div id="timeoff" class="content-section">
                 <div class="section-header">
                     <h1>Time Off Management</h1>
                     <p>Request and manage your time off</p>
                 </div>
 
-                <!-- Key Metrics -->
+
                 <div class="metrics-row">
                     <div class="metric-card">
                         <div class="metric-icon">
@@ -479,7 +467,7 @@
                     </div>
                 </div>
 
-                <!-- Monthly Overview -->
+              
                 <div class="overview-section">
                     <div class="overview-header">
                         <h3>Monthly Overview</h3>
@@ -496,17 +484,14 @@
                     </div>
                 </div>
 
-                <!-- Leave Balance Section -->
                 <div class="leave-balance-section">
                     <div class="section-header">
                         <h3><i class="fas fa-umbrella"></i> Leave Balance</h3>
                         <p>Your available time off days</p>
                     </div>
-                    <!-- Leave balance content will be populated by JavaScript -->
                 </div>
             </div>
 
-            <!-- Request Time Off Form -->
             <div id="request-timeoff" class="content-section">
                 <div class="form-container">
                     <div class="form-header">
@@ -602,14 +587,14 @@
                 </div>
             </div>
 
-            <!-- Attendance Section -->
+           
             <div id="attendance" class="content-section">
                 <div class="section-header">
                     <h1>Attendance</h1>
                     <p>Simple attendance tracking</p>
                 </div>
 
-                <!-- Simple Attendance Overview -->
+                
                 <div class="metrics-row">
                     <div class="metric-card">
                         <div class="metric-icon">
@@ -640,7 +625,6 @@
                     </div>
                 </div>
 
-                <!-- Simple Recent Attendance -->
                 <div class="widget">
                     <div class="widget-header">
                         <div class="widget-title">
@@ -721,7 +705,6 @@
                 </div>
             </div>
 
-            <!-- Settings Section -->
             <div id="settings" class="content-section">
                 <div class="section-header">
                     <h1><i class="fas fa-cog"></i> Settings</h1>
@@ -729,7 +712,6 @@
                 </div>
 
                 <div class="settings-container">
-                    <!-- Profile Settings -->
                     <div class="settings-card">
                         <div class="settings-card-header">
                             <h3><i class="fas fa-user"></i> Profile Settings</h3>
@@ -779,7 +761,6 @@
                         </div>
                     </div>
 
-                    <!-- Password Settings -->
                     <div class="settings-card">
                         <div class="settings-card-header">
                             <h3><i class="fas fa-lock"></i> Password Settings</h3>
@@ -830,7 +811,6 @@
                         </div>
                     </div>
 
-                    <!-- Notification Settings -->
                     <div class="settings-card">
                         <div class="settings-card-header">
                             <h3><i class="fas fa-bell"></i> Notification Settings</h3>
@@ -907,7 +887,6 @@
                 </div>
             </div>
 
-            <!-- Profile Section -->
             <div id="profile" class="content-section">
                 <div class="section-header">
                     <h1><i class="fas fa-user"></i> Profile</h1>
@@ -915,14 +894,13 @@
                 </div>
 
                 <div class="profile-container">
-                    <!-- Profile Header -->
                     <div class="profile-header">
                         <div class="profile-avatar">
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="profile-info">
-                            <h2>John Doe</h2>
-                            <p class="profile-title">Software Engineer</p>
+                            <h2 id="navbarFullName">abc</h2>
+                            <p id="navbarposition">Software Engineer</p>
                             <p class="profile-department">Engineering Department</p>
                             <div class="profile-status">
                                 <span class="status-badge active">Active</span>
@@ -931,7 +909,6 @@
                         </div>
                     </div>
 
-                    <!-- Profile Statistics -->
                     <div class="profile-stats">
                         <div class="stats-header">
                             <h3>Performance Statistics</h3>
@@ -976,7 +953,6 @@
                         </div>
                     </div>
 
-                    <!-- Personal Information -->
                     <div class="profile-details">
                         <div class="details-card">
                             <div class="details-header">
@@ -1058,10 +1034,46 @@
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="renderer.js"></script>
     <script>
-        const fullName = localStorage.getItem('fullName');
-        if (fullName) {
-            const navbarFullName = document.getElementById('navbarFullName');
-            if (navbarFullName) navbarFullName.textContent = fullName;
+     
+        const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+        const navbarFullName = document.getElementById('navbarFullName');
+        const navbarPosition = document.getElementById('navbarPosition');
+        if (profileData.fullName && navbarFullName) {
+            navbarFullName.textContent = profileData.fullName;
+        }
+        if (profileData.position && navbarPosition) {
+            navbarPosition.textContent = profileData.position;
+        }
+
+     
+        const profileName = document.querySelector('.profile-info h2');
+        const profilePosition = document.getElementById('navbarposition');
+        if (profileData.fullName && profileName) {
+            profileName.textContent = profileData.fullName;
+        }
+        if (profileData.position && profilePosition) {
+            profilePosition.textContent = profileData.position;
+        }
+
+      
+        const profileAvatar = document.querySelector('.profile-avatar');
+        if (profileData.profilephoto && profileAvatar) {
+            profileAvatar.innerHTML = `<img src="${profileData.profilephoto}" alt="Profile Photo" style="width:80px;height:80px;border-radius:50%;object-fit:cover;">`;
+        }
+
+      
+        const personalInfoGrid = document.getElementById('personalInfoGrid');
+        if (personalInfoGrid && profileData.fullName && profileData.email) {
+            personalInfoGrid.innerHTML = `
+                <div class="detail-item">
+                    <label>Full Name</label>
+                    <span>${profileData.fullName}</span>
+                </div>
+                <div class="detail-item">
+                    <label>Email</label>
+                    <span>${profileData.email}</span>
+                </div>
+            `;
         }
     </script>
 </body>

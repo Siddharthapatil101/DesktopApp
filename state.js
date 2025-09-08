@@ -90,11 +90,9 @@ function updateAttendanceState(updates) {
     
     updateStats();
     
-    // Call main process IPC handlers for check-in/check-out
     if (typeof require !== 'undefined') {
         const { ipcRenderer } = require('electron');
         
-        // Save state to main process
         ipcRenderer.invoke('save-state', AppState.attendance).then(result => {
             if (!result.success) {
                 console.error('Failed to save state:', result.error);

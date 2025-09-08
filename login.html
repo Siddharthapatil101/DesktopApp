@@ -100,10 +100,6 @@
       transform: translateY(-1px);
     }
 
-    .form-group input:valid {
-      border-color: #10b981;
-    }
-
     .form-group .input-icon {
       position: absolute;
       right: 18px;
@@ -114,15 +110,6 @@
       cursor: pointer;
       transition: all 0.3s ease;
       z-index: 2;
-    }
-
-    .form-group input:focus + .input-icon {
-      color: #667eea;
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    .form-group input:valid + .input-icon {
-      color: #10b981;
     }
 
     .error-message {
@@ -390,7 +377,6 @@
       </div>
       
       <button type="submit" class="signin-btn" id="submitBtn">Sign In</button>
-      <a href="register.html" id="signinpage"></a>
     </form>
     
     <div class="divider">
@@ -497,8 +483,7 @@
         setTimeout(() => {
           submitBtn.classList.remove('loading');
           submitBtn.textContent = 'Sign In';
-          window.location.href = 'index.html';
-          window.location.reload(); 
+          window.location.href = 'index.html'; 
         }, 2000);
       }
     });
@@ -506,16 +491,13 @@
     document.getElementById('registerLink').addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = 'register.html';
-      window.location.reload(); // Refresh after redirect
     });
 
-    // Handle forgot password link
     document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
       e.preventDefault();
       alert('Redirect to password reset page');
     });
 
-    // Load saved email if remember me was checked
     window.addEventListener('load', function() {
       const savedEmail = localStorage.getItem('rememberedEmail');
       if (savedEmail) {
@@ -525,7 +507,6 @@
       }
     });
 
-    // Save email if remember me is checked
     rememberMe.addEventListener('change', function() {
       if (this.checked && emailInput.value && validateEmail(emailInput.value)) {
         localStorage.setItem('rememberedEmail', emailInput.value);
@@ -534,24 +515,19 @@
       }
     });
 
-    // Update input icon color on focus and valid state
-    const inputIcons = document.querySelectorAll('.input-icon');
-    const allInputs = document.querySelectorAll('input');
-    allInputs.forEach((input, idx) => {
-      input.addEventListener('focus', function() {
-        if (inputIcons[idx]) inputIcons[idx].style.color = '#667eea';
+    document.querySelectorAll('.form-group').forEach(group => {
+      const input = group.querySelector('input');
+      const icon = group.querySelector('.input-icon');
+      if (!input || !icon) return;
+
+      input.addEventListener('focus', () => {
+        icon.style.color = '#667eea';
       });
-      input.addEventListener('blur', function() {
-        if (inputIcons[idx]) inputIcons[idx].style.color = '#aaa';
+      input.addEventListener('blur', () => {
+        icon.style.color = input.checkValidity() ? '#10b981' : '#aaa';
       });
-      input.addEventListener('input', function() {
-        if (inputIcons[idx]) {
-          if (input.checkValidity()) {
-            inputIcons[idx].style.color = '#10b981';
-          } else {
-            inputIcons[idx].style.color = '#aaa';
-          }
-        }
+      input.addEventListener('input', () => {
+        icon.style.color = input.checkValidity() ? '#10b981' : '#aaa';
       });
     });
   </script>

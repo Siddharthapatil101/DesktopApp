@@ -1,6 +1,5 @@
 const { ipcRenderer } = require('electron');
 
-// Global variables
 let timer = null;
 let startTime = null;
 let breakStartTime = null;
@@ -8,7 +7,6 @@ let totalBreakTime = 0;
 let isCheckedIn = false;
 let isOnBreak = false;
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing app...');
     initializeApp();
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeApp() {
-    // Restore previous state if exists
     ipcRenderer.invoke('get-saved-state').then(savedState => {
         if (savedState && savedState.data) {
             isCheckedIn = savedState.data.isCheckedIn;
@@ -37,10 +34,9 @@ function initializeApp() {
 function setupEventListeners() {
     console.log('Setting up event listeners...');
     
-    // Navigation
-    setupNavigation();
     
-    // Time tracking buttons
+    setupNavigation();
+ 
     const checkInBtn = document.querySelector('.btn-checkin');
     const breakBtn = document.querySelector('.btn-break');
     const checkoutBtn = document.querySelector('.btn-checkout');
@@ -57,7 +53,7 @@ function setupEventListeners() {
         checkoutBtn.addEventListener('click', handleCheckOut);
     }
     
-    // Request leave button
+   
     const requestLeaveBtn = document.querySelector('.btn-request-leave');
     if (requestLeaveBtn) {
         requestLeaveBtn.addEventListener('click', () => {
@@ -65,36 +61,34 @@ function setupEventListeners() {
         });
     }
     
-    // Quick action buttons
+    
     const actionBtns = document.querySelectorAll('.action-btn');
     actionBtns.forEach(btn => {
         btn.addEventListener('click', handleQuickAction);
     });
     
-    // Time off form
+    
     const timeoffForm = document.querySelector('.timeoff-form');
     if (timeoffForm) {
         timeoffForm.addEventListener('submit', handleTimeOffRequest);
     }
     
-    // Overview tabs
+    
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
         btn.addEventListener('click', handleTabSwitch);
     });
     
-    // Settings functionality
+   
     setupSettingsEventListeners();
-    
-    // Dashboard functionality
+
     setupDashboardEventListeners();
     
-    // Initialize dashboard state
+  
     updateButtonStates();
     updateStatistics();
     updateLeaveBalance();
     
-    // Load dashboard data
     loadDashboardData();
 }
 
@@ -105,10 +99,8 @@ function setupNavigation() {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             
-            // Remove active class from all links
             navLinks.forEach(l => l.parentElement.classList.remove('active'));
             
-            // Add active class to clicked link
             link.parentElement.classList.add('active');
             
             const targetId = link.getAttribute('href').substring(1);
@@ -118,18 +110,15 @@ function setupNavigation() {
 }
 
 function switchTab(targetId) {
-    // Hide all content sections
     const contentSections = document.querySelectorAll('.content-section');
     contentSections.forEach(section => {
         section.classList.remove('active');
     });
     
-    // Show target section
     const targetSection = document.getElementById(targetId);
     if (targetSection) {
         targetSection.classList.add('active');
         
-        // Initialize specific tab content if needed
         if (targetId === 'timeoff') {
             initializeTimeOff();
         } else if (targetId === 'request-timeoff') {
@@ -179,7 +168,6 @@ function updateTimer() {
         const formattedTime = formatTime(elapsed);
         updateTimerDisplay(formattedTime);
         
-        // Update today's work in summary cards
         updateTodayWork(elapsed);
     } else {
         updateTimerDisplay('00:00:00');
@@ -212,19 +200,16 @@ function updateTodayWork(elapsed) {
 }
 
 function updateStatistics() {
-    // Update attendance rate
     const attendanceCard = document.querySelector('.summary-card.attendance-rate .card-content h2');
     if (attendanceCard) {
         attendanceCard.textContent = '95%';
     }
     
-    // Update this week hours
     const thisWeekCard = document.querySelector('.summary-card.this-week .card-content h2');
     if (thisWeekCard) {
         thisWeekCard.textContent = '32h';
     }
     
-    // Update days available
     const daysAvailableCard = document.querySelector('.summary-card.days-available .card-content h2');
     if (daysAvailableCard) {
         daysAvailableCard.textContent = '15';
@@ -254,7 +239,7 @@ async function handleBreak() {
     if (!isCheckedIn) return;
     
     if (!isOnBreak) {
-        // Start break
+       
         isOnBreak = true;
         breakStartTime = new Date();
         
@@ -271,7 +256,7 @@ async function handleBreak() {
         
         showNotification('Break Started', 'You are now on break. Take some time to relax!', 'info');
     } else {
-        // End break
+       
         isOnBreak = false;
         if (breakStartTime) {
             totalBreakTime += new Date() - breakStartTime;
@@ -292,7 +277,6 @@ async function handleBreak() {
         showNotification('Break Ended', 'Welcome back! You are now working again.', 'success');
     }
     
-    // Save state
     await saveState();
 }
 
@@ -302,29 +286,24 @@ async function handleCheckOut() {
     const now = new Date();
     const totalWorkTime = now - startTime - totalBreakTime;
     
-    // Show checkout confirmation
     if (confirm('Are you sure you want to check out?')) {
         isCheckedIn = false;
         stopTimer();
         
-        // Reset timer display
         const timerElement = document.getElementById('workTimer');
         if (timerElement) {
             timerElement.textContent = '00:00:00';
         }
         
-        // Update button states
         updateButtonStates();
         
-        // Add activity record
         addActivityRecord('checkout', 'completed');
-        
-        // Show summary
+      
         showCheckoutSummary(totalWorkTime);
         
         showNotification('Checked Out', 'You have successfully checked out for the day.', 'success');
         
-        // Save state
+        
         await saveState();
     }
 }
@@ -351,7 +330,6 @@ function showCheckoutSummary(totalWorkTime) {
         </div>
     `;
     
-    // You can show this in a modal or notification
     console.log(summary);
 }
 
@@ -363,15 +341,12 @@ function handleQuickAction(e) {
             switchTab('request-timeoff');
             break;
         case 'View Schedule':
-            // Handle view schedule
             showNotification('Schedule', 'Opening your work schedule...', 'info');
             break;
         case 'Report Issue':
-            // Handle report issue
             showNotification('Report Issue', 'Opening issue reporting form...', 'info');
             break;
         case 'Contact HR':
-            // Handle contact HR
             showNotification('Contact HR', 'Opening HR contact form...', 'info');
             break;
     }
@@ -382,27 +357,24 @@ function handleTabSwitch(e) {
     tabBtns.forEach(btn => btn.classList.remove('active'));
     e.target.classList.add('active');
     
-    // Handle tab content switching
     const tabText = e.target.textContent;
     if (tabText === 'This Month') {
-        // Load this month data
         console.log('Loading this month data...');
     } else if (tabText === 'Last Month') {
-        // Load last month data
         console.log('Loading last month data...');
     }
 }
 
 function initializeTimeOff() {
-    // Load time off data
+ 
     console.log('Initializing Time Off section...');
     
-    // Update metrics
+   
     updateTimeOffMetrics();
 }
 
 function initializeTimeOffForm() {
-    // Set current date
+    
     const requestDateInput = document.querySelector('.timeoff-form input[value="08/05/2025"]');
     if (requestDateInput) {
         const today = new Date();
@@ -414,7 +386,7 @@ function initializeTimeOffForm() {
         requestDateInput.value = formattedDate;
     }
     
-    // Add date picker functionality
+    
     const dateInputs = document.querySelectorAll('.input-with-icon input[placeholder="mm/dd/yyyy"]');
     dateInputs.forEach(input => {
         input.addEventListener('focus', () => {
@@ -430,19 +402,18 @@ function initializeTimeOffForm() {
 }
 
 function updateTimeOffMetrics() {
-    // Update approval rate
+    
     const approvalRate = document.querySelector('.metric-card:nth-child(1) .metric-content h3');
     if (approvalRate) {
         approvalRate.textContent = '79.5%';
     }
     
-    // Update response time
     const responseTime = document.querySelector('.metric-card:nth-child(2) .metric-content h3');
     if (responseTime) {
         responseTime.textContent = '1.2 days';
     }
     
-    // Update active requests
+  
     const activeRequests = document.querySelector('.metric-card:nth-child(3) .metric-content h3');
     if (activeRequests) {
         activeRequests.textContent = '18';
@@ -463,21 +434,19 @@ async function handleTimeOffRequest(e) {
         emergencyContact: formData.get('emergencyContact')
     };
     
-    // Validate form
+   
     if (!validateTimeOffForm(leaveData)) {
         return;
     }
     
     try {
-        // Local processing only - no API call
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         showNotification('Success', 'Your time off request has been submitted successfully!', 'success');
         
-        // Reset form
+     
         e.target.reset();
         
-        // Switch back to time off section
         switchTab('timeoff');
         
     } catch (error) {
@@ -500,13 +469,11 @@ function validateTimeOffForm(data) {
 }
 
 function updateLeaveBalance() {
-    // Update leave balance in the widget
     const leaveTotal = document.querySelector('.leave-total h2');
     if (leaveTotal) {
         leaveTotal.textContent = '15';
     }
     
-    // Update individual leave types
     const leaveTypes = document.querySelectorAll('.leave-type');
     leaveTypes.forEach(type => {
         const info = type.querySelector('.leave-info');
@@ -573,11 +540,9 @@ function addActivityRecord(type, status) {
             ${status === 'completed' ? '<i class="fas fa-check"></i>' : '<span class="status-number">1</span>'}
         </div>
     `;
-    
-    // Add to the beginning of the list
+
     activityList.insertBefore(activityItem, activityList.firstChild);
-    
-    // Remove old items if more than 5
+
     const items = activityList.querySelectorAll('.activity-item');
     if (items.length > 5) {
         items[items.length - 1].remove();
@@ -585,11 +550,9 @@ function addActivityRecord(type, status) {
 }
 
 function showNotification(title, message, type = 'success') {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     
-    // Get appropriate icon based on type
     let icon = 'info-circle';
     switch (type) {
         case 'success':
@@ -616,11 +579,10 @@ function showNotification(title, message, type = 'success') {
             <i class="fas fa-times"></i>
         </button>
     `;
-    
-    // Add to page
+  
     document.body.appendChild(notification);
     
-    // Remove after 5 seconds
+    
     setTimeout(() => {
         if (notification.parentElement) {
             notification.classList.add('hiding');
@@ -641,7 +603,7 @@ function startClock() {
 function updateClock() {
     const now = new Date();
     
-    // Update time
+   
     const timeElement = document.getElementById('currentTime');
     if (timeElement) {
         timeElement.textContent = now.toLocaleTimeString('en-US', {
@@ -650,8 +612,7 @@ function updateClock() {
             hour12: false
         });
     }
-    
-    // Update date
+   
     const dateElement = document.getElementById('currentDate');
     if (dateElement) {
         dateElement.textContent = now.toLocaleDateString('en-US', {
@@ -679,7 +640,6 @@ async function saveState() {
     }
 }
 
-// Manual check-in functionality
 async function handleCheckIn() {
     if (!isCheckedIn) {
         isCheckedIn = true;
@@ -693,37 +653,32 @@ async function handleCheckIn() {
 }
 
 function setupSettingsEventListeners() {
-    // Profile settings form
     const profileForm = document.querySelector('.settings-form');
     if (profileForm) {
         profileForm.addEventListener('submit', handleProfileSettingsSubmit);
     }
     
-    // Password change form
     const passwordForm = document.querySelector('.password-form');
     if (passwordForm) {
         passwordForm.addEventListener('submit', handlePasswordChange);
     }
     
-    // Password strength checking
     const newPasswordInput = document.getElementById('newPassword');
     if (newPasswordInput) {
         newPasswordInput.addEventListener('input', checkPasswordStrength);
     }
     
-    // Profile picture upload
+   
     const uploadBtn = document.querySelector('.profile-picture-upload .btn');
     if (uploadBtn) {
         uploadBtn.addEventListener('click', handleProfilePictureUpload);
     }
     
-    // Notification settings toggles
     const notificationToggles = document.querySelectorAll('.settings-option .switch input[type="checkbox"]');
     notificationToggles.forEach(toggle => {
         toggle.addEventListener('change', handleNotificationSettingChange);
     });
     
-    // Appearance settings
     const darkModeToggle = document.querySelector('.settings-option .switch input[type="checkbox"]:not([checked])');
     if (darkModeToggle) {
         darkModeToggle.addEventListener('change', handleDarkModeToggle);
@@ -734,7 +689,6 @@ function setupSettingsEventListeners() {
         languageSelect.addEventListener('change', handleLanguageChange);
     }
     
-    // Load saved settings
     loadSavedSettings();
 }
 
@@ -749,7 +703,7 @@ function handleProfileSettingsSubmit(e) {
         department: e.target.querySelectorAll('input[type="text"]')[1].value
     };
     
-    // Validate form data
+    
     if (!profileData.fullName || !profileData.email) {
         showNotification('Error', 'Please fill in all required fields', 'error');
         return;
@@ -760,10 +714,8 @@ function handleProfileSettingsSubmit(e) {
         return;
     }
     
-    // Save profile data
     saveProfileData(profileData);
     
-    // Update profile display
     updateProfileDisplay(profileData);
     
     showNotification('Success', 'Profile settings saved successfully!', 'success');
@@ -776,7 +728,7 @@ function handlePasswordChange(e) {
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     
-    // Validation
+    
     if (!currentPassword || !newPassword || !confirmPassword) {
         showNotification('Error', 'Please fill in all password fields', 'error');
         return;
@@ -792,18 +744,17 @@ function handlePasswordChange(e) {
         return;
     }
     
-    // Check password strength
+    
     const strength = getPasswordStrength(newPassword);
     if (strength === 'weak') {
         showNotification('Warning', 'Password is too weak. Please choose a stronger password.', 'warning');
         return;
     }
     
-    // In a real app, you would verify current password and update on server
-    // For demo purposes, we'll just show success
+    
     showNotification('Success', 'Password changed successfully!', 'success');
     
-    // Clear form
+   
     e.target.reset();
     document.getElementById('passwordStrength').style.display = 'none';
 }
@@ -822,13 +773,11 @@ function checkPasswordStrength(e) {
     const strength = getPasswordStrength(password);
     strengthDiv.style.display = 'block';
     
-    // Remove all strength classes
-    strengthFill.classList.remove('weak', 'fair', 'good', 'strong');
     
-    // Add appropriate class
+    strengthFill.classList.remove('weak', 'fair', 'good', 'strong');
+   
     strengthFill.classList.add(strength);
     
-    // Update text
     const strengthLabels = {
         weak: 'Weak',
         fair: 'Fair',
@@ -842,24 +791,20 @@ function checkPasswordStrength(e) {
 function getPasswordStrength(password) {
     let score = 0;
     
-    // Length check
     if (password.length >= 8) score++;
     if (password.length >= 12) score++;
     
-    // Character variety checks
     if (/[a-z]/.test(password)) score++;
     if (/[A-Z]/.test(password)) score++;
     if (/[0-9]/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
     
-    // Determine strength level
     if (score <= 2) return 'weak';
     if (score <= 3) return 'fair';
     if (score <= 4) return 'good';
     return 'strong';
 }
 
-// Global function for password toggle (called from HTML)
 window.togglePassword = function(inputId) {
     const input = document.getElementById(inputId);
     const button = input.nextElementSibling;
@@ -876,7 +821,6 @@ window.togglePassword = function(inputId) {
     }
 };
 
-// Global function for editing personal information
 window.editPersonalInfo = function() {
     const grid = document.getElementById('personalInfoGrid');
     const currentData = {
@@ -888,7 +832,6 @@ window.editPersonalInfo = function() {
         emergencyContact: 'Jane Doe - +1 (555) 987-6543'
     };
     
-    // Create edit form
     const formHTML = `
         <form class="edit-form" onsubmit="savePersonalInfo(event)">
             <div class="form-row">
@@ -935,7 +878,6 @@ window.editPersonalInfo = function() {
     grid.innerHTML = formHTML;
 };
 
-// Global function for editing work information
 window.editWorkInfo = function() {
     const grid = document.getElementById('workInfoGrid');
     const currentData = {
@@ -947,7 +889,6 @@ window.editWorkInfo = function() {
         workLocation: 'Main Office - Floor 3'
     };
     
-    // Create edit form
     const formHTML = `
         <form class="edit-form" onsubmit="saveWorkInfo(event)">
             <div class="form-row">
@@ -996,49 +937,41 @@ window.editWorkInfo = function() {
     grid.innerHTML = formHTML;
 };
 
-// Global function for saving personal information
 window.savePersonalInfo = function(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
-    // Validate required fields
     if (!data.fullName || !data.email) {
         showNotification('Error', 'Please fill in all required fields', 'error');
         return;
     }
     
-    // Save to localStorage
     localStorage.setItem('personalInfo', JSON.stringify(data));
     
-    // Update display
+    
     updatePersonalInfoDisplay(data);
     
     showNotification('Success', 'Personal information saved successfully!', 'success');
 };
 
-// Global function for saving work information
 window.saveWorkInfo = function(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
-    // Validate required fields
     if (!data.department || !data.position) {
         showNotification('Error', 'Please fill in all required fields', 'error');
         return;
     }
     
-    // Save to localStorage
     localStorage.setItem('workInfo', JSON.stringify(data));
     
-    // Update display
     updateWorkInfoDisplay(data);
     
     showNotification('Success', 'Work information saved successfully!', 'success');
 };
 
-// Global function for canceling edit
 window.cancelEdit = function(gridId) {
     const grid = document.getElementById(gridId);
     
@@ -1047,7 +980,6 @@ window.cancelEdit = function(gridId) {
         if (savedData) {
             updatePersonalInfoDisplay(JSON.parse(savedData));
         } else {
-            // Restore default data
             updatePersonalInfoDisplay({
                 fullName: 'John Michael Doe',
                 email: 'john.doe@company.com',
@@ -1062,7 +994,6 @@ window.cancelEdit = function(gridId) {
         if (savedData) {
             updateWorkInfoDisplay(JSON.parse(savedData));
         } else {
-            // Restore default data
             updateWorkInfoDisplay({
                 employeeId: 'EMP001',
                 department: 'Software Engineering',
@@ -1077,7 +1008,6 @@ window.cancelEdit = function(gridId) {
 
 
 
-// Helper function to update personal info display
 function updatePersonalInfoDisplay(data) {
     const grid = document.getElementById('personalInfoGrid');
     grid.innerHTML = `
@@ -1108,7 +1038,6 @@ function updatePersonalInfoDisplay(data) {
     `;
 }
 
-// Helper function to update work info display
 function updateWorkInfoDisplay(data) {
     const grid = document.getElementById('workInfoGrid');
     grid.innerHTML = `
@@ -1140,7 +1069,6 @@ function updateWorkInfoDisplay(data) {
 }
 
 function handleProfilePictureUpload() {
-    // Create a file input element
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
@@ -1148,7 +1076,7 @@ function handleProfilePictureUpload() {
     fileInput.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+            if (file.size > 5 * 1024 * 1024) { 
                 showNotification('Error', 'File size must be less than 5MB', 'error');
                 return;
             }
@@ -1160,7 +1088,7 @@ function handleProfilePictureUpload() {
                     preview.innerHTML = `<img src="${e.target.result}" alt="Profile Picture" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 }
                 
-                // Save profile picture
+                
                 localStorage.setItem('profilePicture', e.target.result);
                 showNotification('Success', 'Profile picture uploaded successfully!', 'success');
             };
@@ -1175,7 +1103,6 @@ function handleNotificationSettingChange(e) {
     const settingName = e.target.closest('.settings-option').querySelector('h4').textContent;
     const isEnabled = e.target.checked;
     
-    // Save notification setting
     const settings = JSON.parse(localStorage.getItem('notificationSettings') || '{}');
     settings[settingName] = isEnabled;
     localStorage.setItem('notificationSettings', JSON.stringify(settings));
@@ -1192,7 +1119,6 @@ function handleDarkModeToggle(e) {
         document.body.classList.remove('dark-mode');
     }
     
-    // Save dark mode setting
     localStorage.setItem('darkMode', isDarkMode);
     
     showNotification('Success', `Dark mode ${isDarkMode ? 'enabled' : 'disabled'}`, 'success');
@@ -1201,28 +1127,23 @@ function handleDarkModeToggle(e) {
 function handleLanguageChange(e) {
     const language = e.target.value;
     
-    // Save language setting
     localStorage.setItem('language', language);
     
     showNotification('Success', `Language changed to ${language}`, 'success');
 }
 
 function saveProfileData(profileData) {
-    // Save to localStorage
     localStorage.setItem('profileData', JSON.stringify(profileData));
     
-    // In a real app, you would send this to a server
     console.log('Profile data saved:', profileData);
 }
 
 function updateProfileDisplay(profileData) {
-    // Update profile header
     const profileName = document.querySelector('.profile-info h2');
     if (profileName) {
         profileName.textContent = profileData.fullName;
     }
     
-    // Update profile details
     const detailItems = document.querySelectorAll('.detail-item');
     detailItems.forEach(item => {
         const label = item.querySelector('label').textContent;
@@ -1241,7 +1162,6 @@ function updateProfileDisplay(profileData) {
         }
     });
     
-    // Update settings form with new values
     const form = document.querySelector('.settings-form');
     if (form) {
         form.querySelector('input[type="text"]').value = profileData.fullName;
@@ -1252,26 +1172,24 @@ function updateProfileDisplay(profileData) {
 }
 
 function loadSavedSettings() {
-    // Load profile data
     const savedProfileData = localStorage.getItem('profileData');
     if (savedProfileData) {
         const profileData = JSON.parse(savedProfileData);
         updateProfileDisplay(profileData);
     }
     
-    // Load personal information
     const savedPersonalInfo = localStorage.getItem('personalInfo');
     if (savedPersonalInfo) {
         updatePersonalInfoDisplay(JSON.parse(savedPersonalInfo));
     }
     
-    // Load work information
+   
     const savedWorkInfo = localStorage.getItem('workInfo');
     if (savedWorkInfo) {
         updateWorkInfoDisplay(JSON.parse(savedWorkInfo));
     }
     
-    // Load notification settings
+    
     const savedNotificationSettings = localStorage.getItem('notificationSettings');
     if (savedNotificationSettings) {
         const settings = JSON.parse(savedNotificationSettings);
@@ -1284,7 +1202,6 @@ function loadSavedSettings() {
         });
     }
     
-    // Load dark mode setting
     const darkMode = localStorage.getItem('darkMode') === 'true';
     const darkModeToggle = document.querySelector('.settings-option .switch input[type="checkbox"]:not([checked])');
     if (darkModeToggle && darkMode) {
@@ -1292,14 +1209,14 @@ function loadSavedSettings() {
         document.body.classList.add('dark-mode');
     }
     
-    // Load language setting
+    
     const language = localStorage.getItem('language');
     const languageSelect = document.querySelector('.form-group select');
     if (languageSelect && language) {
         languageSelect.value = language;
     }
     
-    // Load profile picture
+   
     const profilePicture = localStorage.getItem('profilePicture');
     if (profilePicture) {
         const preview = document.querySelector('.profile-picture-preview');
@@ -1314,21 +1231,21 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// Dashboard Functions
+
 function setupDashboardEventListeners() {
-    // Refresh activity button
+ 
     const refreshActivityBtn = document.getElementById('refreshActivityBtn');
     if (refreshActivityBtn) {
         refreshActivityBtn.addEventListener('click', loadRecentActivity);
     }
     
-    // Refresh events button
+ 
     const refreshEventsBtn = document.getElementById('refreshEventsBtn');
     if (refreshEventsBtn) {
         refreshEventsBtn.addEventListener('click', loadUpcomingEvents);
     }
     
-    // Search functionality
+   
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('dashboardSearch');
     
@@ -1341,7 +1258,7 @@ function setupDashboardEventListeners() {
         });
     }
     
-    // Quick action buttons
+   
     const requestTimeOffBtn = document.getElementById('requestTimeOffBtn');
     const viewScheduleBtn = document.getElementById('viewScheduleBtn');
     const reportIssueBtn = document.getElementById('reportIssueBtn');
@@ -1382,31 +1299,26 @@ function setupDashboardEventListeners() {
 
 }
 
-// API Configuration
+
 const API_BASE_URL = 'http://localhost:8080/api';
 
 async function loadDashboardData() {
     try {
-        // Fetch complete dashboard data from API
         const response = await fetch(`${API_BASE_URL}/dashboard`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const dashboardData = await response.json();
         
-        // Update dashboard with API data
         updateDashboardWithData(dashboardData);
         
-        // Load additional dashboard statistics
         loadDashboardStats();
         
-        // Load activities and events
         loadActivities();
         loadEvents();
         
     } catch (error) {
         console.error('Error loading dashboard data:', error);
-        // Fallback to local data if API fails
         loadDashboardStats();
         loadActivities();
         loadEvents();
@@ -1414,27 +1326,26 @@ async function loadDashboardData() {
 }
 
 function updateDashboardWithData(data) {
-    // Update employee profile
+
     updateEmployeeProfile(data.employee_profile);
     
-    // Update summary cards
+
     updateSummaryCards(data.summary_cards);
     
-    // Update time tracking
+   
     updateTimeTracking(data.time_tracking);
     
-    // Update weekly progress
+   
     updateWeeklyProgress(data.weekly_progress);
     
-    // Update leave balance
+  
     updateLeaveBalance(data.leave_balance);
     
-    // Update insights
+   
     updateInsights(data.insights);
 }
 
 function updateEmployeeProfile(profile) {
-    // Check if profile data exists
     if (!profile) {
         console.warn('Employee profile data is undefined, skipping update');
         return;
@@ -1454,7 +1365,6 @@ function updateEmployeeProfile(profile) {
 }
 
 function updateSummaryCards(summary) {
-    // Check if summary data exists
     if (!summary) {
         console.warn('Summary cards data is undefined, skipping update');
         return;
@@ -1472,7 +1382,6 @@ function updateSummaryCards(summary) {
 }
 
 function updateTimeTracking(tracking) {
-    // Check if tracking data exists
     if (!tracking) {
         console.warn('Time tracking data is undefined, skipping update');
         return;
@@ -1503,7 +1412,6 @@ function updateTimeTracking(tracking) {
 }
 
 function updateWeeklyProgress(progress) {
-    // Check if progress data exists
     if (!progress) {
         console.warn('Weekly progress data is undefined, skipping update');
         return;
@@ -1519,7 +1427,6 @@ function updateWeeklyProgress(progress) {
 }
 
 function updateLeaveBalance(leave) {
-    // Check if leave data exists
     if (!leave) {
         console.warn('Leave balance data is undefined, skipping update');
         return;
@@ -1537,7 +1444,6 @@ function updateLeaveBalance(leave) {
 }
 
 function updateInsights(insights) {
-    // Check if insights data exists
     if (!insights || !Array.isArray(insights)) {
         console.warn('Insights data is undefined or not an array, skipping update');
         return;
@@ -1573,13 +1479,13 @@ function getTimeOfDay() {
 }
 
 function loadDashboardStats() {
-    // Update summary cards with local data
+   
     const todayWorkCard = document.querySelector('.summary-card.today-work .card-content h2');
     const attendanceRateCard = document.querySelector('.summary-card.attendance-rate .card-content h2');
     const thisWeekCard = document.querySelector('.summary-card.this-week .card-content h2');
     
     if (todayWorkCard) {
-        const hours = Math.floor(32 / 40); // Assuming 40-hour work week
+        const hours = Math.floor(32 / 40); 
         const minutes = Math.floor((32 % 40) * 60);
         todayWorkCard.textContent = `${hours}h ${minutes}m`;
     }
@@ -1597,7 +1503,6 @@ async function loadRecentActivity() {
     const activityList = document.getElementById('activityList');
     if (!activityList) return;
     
-    // Show loading state
     activityList.innerHTML = `
         <div class="activity-loading">
             <i class="fas fa-spinner fa-spin"></i>
@@ -1606,14 +1511,12 @@ async function loadRecentActivity() {
     `;
     
     try {
-        // Fetch activities from API
         const response = await fetch(`${API_BASE_URL}/dashboard/activities`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const activities = await response.json();
         
-        // Clear and render activities
         activityList.innerHTML = '';
         
         activities.forEach(activity => {
@@ -1622,7 +1525,6 @@ async function loadRecentActivity() {
         });
     } catch (error) {
         console.error('Error loading activities:', error);
-        // Fallback to mock data
         const fallbackActivities = [
             {
                 id: 1,
@@ -1658,7 +1560,6 @@ function createActivityItem(activity) {
     const activityItem = document.createElement('div');
     activityItem.className = 'activity-item completed';
     
-    // Handle both API format and legacy format
     const message = activity.message || activity.title;
     const timestamp = activity.timestamp ? new Date(activity.timestamp) : activity.timestamp;
     const timeAgo = getTimeAgo(timestamp);
@@ -1683,7 +1584,6 @@ async function loadUpcomingEvents() {
     const eventsList = document.getElementById('eventsList');
     if (!eventsList) return;
     
-    // Show loading state
     eventsList.innerHTML = `
         <div class="events-loading">
             <i class="fas fa-spinner fa-spin"></i>
@@ -1692,14 +1592,12 @@ async function loadUpcomingEvents() {
     `;
     
     try {
-        // Fetch events from API
         const response = await fetch(`${API_BASE_URL}/dashboard/events`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const events = await response.json();
         
-        // Clear and render events
         eventsList.innerHTML = '';
         
         events.forEach(event => {
@@ -1708,7 +1606,6 @@ async function loadUpcomingEvents() {
         });
     } catch (error) {
         console.error('Error loading events:', error);
-        // Fallback to mock data
         const fallbackEvents = [
             {
                 id: 1,
@@ -1743,7 +1640,6 @@ function createEventItem(event) {
     const eventItem = document.createElement('div');
     eventItem.className = `event-item ${event.type}`;
     
-    // Handle both API format and legacy format
     const eventDateTime = event.datetime ? new Date(event.datetime) : new Date(`${event.date}T${event.time}`);
     const eventTime = formatEventTime(eventDateTime);
     const eventIcon = getEventIcon(event.type);
