@@ -420,53 +420,202 @@ function updateTimeOffMetrics() {
     }
 }
 
-async function handleTimeOffRequest(e) {
-    e.preventDefault();
-    
-    const formData = new FormData(e.target);
-    const leaveData = {
-        type: formData.get('leaveType') || 'Vacation',
-        startDate: formData.get('startDate'),
-        endDate: formData.get('endDate'),
-        duration: formData.get('duration'),
-        priority: formData.get('priority'),
-        reason: formData.get('reason'),
-        emergencyContact: formData.get('emergencyContact')
-    };
-    
-   
-    if (!validateTimeOffForm(leaveData)) {
-        return;
-    }
-    
-    try {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        showNotification('Success', 'Your time off request has been submitted successfully!', 'success');
-        
-     
-        e.target.reset();
-        
-        switchTab('timeoff');
-        
-    } catch (error) {
-        showNotification('Error', 'Failed to submit time off request. Please try again.', 'error');
-    }
-}
 
-function validateTimeOffForm(data) {
-    if (!data.startDate || !data.endDate) {
-        showNotification('Error', 'Please select start and end dates.', 'error');
-        return false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.querySelector(".timeoff-form");
+    const saveDraftBtn = document.querySelector(".btn.btn-secondary");
+    const inputs = form.querySelectorAll("input, select, textarea");
+    const notificationContainer = document.getElementById("notification-container");
+
+    function showNotification(message, type = "success") {
+        const notification = document.createElement("div");
+        notification.classList.add("notification", type);
+        notification.textContent = message;
+        notificationContainer.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
     }
-    
-    if (!data.reason) {
-        showNotification('Error', 'Please provide a reason for your leave request.', 'error');
-        return false;
+
+    function showError(input, message) {
+        removeError(input);
+        const error = document.createElement("small");
+        error.classList.add("error-message");
+        error.style.color = "red";
+        error.textContent = message;
+        input.closest(".form-group").appendChild(error);
+        input.classList.add("is-invalid");
     }
-    
-    return true;
-}
+
+    function removeError(input) {
+        const error = input.closest(".form-group").querySelector(".error-message");
+        if (error) error.remove();
+        input.classList.remove("is-invalid");
+    }
+
+    function isValidDate(dateStr) {
+        if (!dateStr) return false;
+        const parts = dateStr.split("/");
+        if (parts.length !== 3) return false;
+        const [month, day, year] = parts.map(Number);
+        const date = new Date(year, month - 1, day);
+        return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+    }
+
+    function validateForm() {
+        let isValid = true;
+
+        inputs.forEach(input => {
+            removeError(input);
+
+            if (input.tagName === "SELECT" && input.value.includes("Select")) {
+                showError(input, "This field is required");
+                isValid = false;
+            }
+
+            if (input.tagName === "INPUT" && input.type === "text") {
+                if (input.placeholder.includes("mm/dd/yyyy") && !isValidDate(input.value)) {
+                    showError(input, "Enter a valid date (mm/dd/yyyy)");
+                    isValid = false;
+                }
+
+                if (input.previousElementSibling?.textContent.includes("Duration") &&
+                    (!/^[0-9]+$/.test(input.value) || input.value <= 0)) {
+                    showError(input, "Enter a valid duration in days");
+                    isValid = false;
+                }
+
+                if (input.placeholder.includes("Name and phone")) {
+                    if (!/^\d{8,10}$/.test(input.value.trim())) {
+                        showError(input, "Enter a valid 8-10 digit phone number");
+                        isValid = false;
+                    }
+                }
+            }
+
+            if (input.tagName === "TEXTAREA") {
+                if (input.value.trim() === "") {
+                    showError(input, "Reason is required");
+                    isValid = false;
+                } else if (/\d/.test(input.value)) {
+                    showError(input, "Text area cannot contain numbers");
+                    isValid = false;
+                }
+            }
+        });
+
+      
+        const allDates = form.querySelectorAll("input[placeholder='mm/dd/yyyy']");
+        const requestDate = allDates[0].value;
+        const startDate = allDates[1].value;
+        const endDate = allDates[2].value;
+
+        if (isValidDate(requestDate) && isValidDate(startDate) && isValidDate(endDate)) {
+            const req = new Date(requestDate);
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (!(req < start && start < end)) {
+                allDates.forEach(d => showError(d, "Request < Start < End date required"));
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    function setDefaultDates() {
+        const allDates = form.querySelectorAll("input[placeholder='mm/dd/yyyy']");
+       
+
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        const endDate = new Date();
+        endDate.setDate(tomorrow.getDate() + 5);
+
+        function formatDate(d) {
+            const dd = String(d.getDate()).padStart(2, '0');
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const yyyy = d.getFullYear();
+            return `${mm}/${dd}/${yyyy}`;
+        }
+
+        requestDateInput.value = formatDate(today);
+        startDateInput.value = formatDate(tomorrow);
+        endDateInput.value = formatDate(endDate);
+    }
+
+   
+    function loadDraft() {
+        const savedDraft = localStorage.getItem("timeoffDraft");
+        if (savedDraft) {
+            const draftData = JSON.parse(savedDraft);
+            inputs.forEach(input => {
+                if (draftData[input.name]) input.value = draftData[input.name];
+            });
+        }
+    }
+
+    saveDraftBtn.addEventListener("click", () => {
+        let isEmpty = true;
+
+        inputs.forEach(input => {
+            if (input.value.trim() !== "" && !input.value.includes("Select")) {
+                isEmpty = false;
+            }
+        });
+
+        if (isEmpty) {
+            showNotification("Please fill the form before saving ❌", "error");
+            return;
+        }
+
+        const draft = {};
+        inputs.forEach(input => {
+            if (input.name) draft[input.name] = input.value;
+        });
+        localStorage.setItem("timeoffDraft", JSON.stringify(draft));
+        showNotification("Draft saved successfully ✅", "success");
+    });
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (validateForm()) {
+            const requestData = {};
+            inputs.forEach(input => {
+                if (input.name) requestData[input.name] = input.value;
+            });
+
+            console.log("Time Off Request Submitted:", requestData);
+            showNotification("Request submitted successfully 🚀", "success");
+            form.reset();
+            setDefaultDates(); 
+            localStorage.removeItem("timeoffDraft"); 
+        } else {
+            showNotification("Please correct the highlighted errors ❌", "error");
+        }
+    });
+
+
+    const phoneInput = form.querySelector("input[placeholder*='Name and phone']");
+    if (phoneInput) {
+        phoneInput.addEventListener("input", () => {
+            phoneInput.value = phoneInput.value.replace(/\D/g, "");
+        });
+    }
+
+    const textareas = form.querySelectorAll("textarea");
+    textareas.forEach(textarea => {
+        textarea.addEventListener("input", () => {
+            textarea.value = textarea.value.replace(/[0-9]/g, "");
+        });
+    });
+
+    setDefaultDates();
+    loadDraft(); 
+});
+
 
 function updateLeaveBalance() {
     const leaveTotal = document.querySelector('.leave-total h2');
@@ -1713,14 +1862,59 @@ function getTimeAgo(timestamp) {
 
 function handleSearch() {
     const searchInput = document.getElementById('dashboardSearch');
-    const query = searchInput.value.trim();
-    
+    const query = searchInput.value.trim().toLowerCase();
+
     if (!query) {
         showNotification('Search', 'Please enter a search term', 'warning');
         return;
     }
-    
-    showNotification('Search', 'Search functionality coming soon!', 'info');
-}
 
+    document.querySelectorAll('.search-highlight').forEach(el => {
+        el.style.backgroundColor = '';
+        el.classList.remove('search-highlight');
+    });
+
+    const elements = document.querySelectorAll('h1, h2, h3, p, span');
+
+    let foundElement = null;
+    elements.forEach(el => {
+        if (el.textContent.toLowerCase().trim() === query && !foundElement) {
+            foundElement = el;
+        }
+    });
+
+    if (foundElement) {
+        foundElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        foundElement.style.backgroundColor = 'yellow';
+        foundElement.classList.add('search-highlight');
+        foundElement.style.transition = 'background-color 0.5s ease';
+
+        setTimeout(() => {
+            foundElement.style.backgroundColor = '';
+            foundElement.classList.remove('search-highlight');
+        }, 2000);
+
+        showNotification('Search', `Found "${query}"`, 'success');
+    } else {
+        showNotification('Search', `No results found for "${query}"`, 'info');
+    }
+}
+ function updateDateTime() {
+    const timeElement = document.getElementById('currentTime');
+    const dateElement = document.getElementById('currentDate');
+
+    const now = new Date();
+
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    timeElement.textContent = `${hours}:${minutes}`;
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = now.toLocaleDateString(undefined, options);
+    dateElement.textContent = formattedDate;
+  }
+
+  updateDateTime();
+
+  setInterval(updateDateTime, 60000);
 

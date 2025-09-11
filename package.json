@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "MDM Security Desktop Application",
   "main": "main.js",
- "scripts": {
-  "start": "electron .",
-  "dist": "electron-builder"
-},
-  "keywords": [],
   "author": "MDM Security",
   "license": "ISC",
+  "keywords": [],
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "bootstrap": "^5.3.2",
@@ -27,23 +28,27 @@
     "appId": "com.mdmsecurity.desktop",
     "productName": "MDM Security",
     "copyright": "Copyright © 2024 MDM Security",
-    "mac": {
-      "category": "public.app-category.business",
-      "icon": "build/icon.icns",
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "darkModeSupport": true
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist{,/**/*}",
+      "!build{,/**/*}",
+      "!node_modules{,/**/*}",
+      "!**/*.map",
+      "!**/*.md"
+    ],
+    "extraMetadata": {
+      "version": "1.0.0"
     },
     "win": {
       "icon": "build/icon.ico",
       "target": [
         {
           "target": "nsis",
-          "arch": [
-            "x64"
-          ]
+          "arch": ["x64"]
         }
       ]
     },
@@ -54,9 +59,11 @@
       "createStartMenuShortcut": true,
       "shortcutName": "MDM Security"
     },
-    "directories": {
-      "buildResources": "build",
-      "output": "dist"
+    "mac": {
+      "category": "public.app-category.business",
+      "icon": "build/icon.icns",
+      "target": ["dmg", "zip"],
+      "darkModeSupport": true
     }
   }
 }
