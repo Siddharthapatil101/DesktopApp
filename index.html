@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<div id="toastContainer" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
 
 </head>
 
@@ -21,11 +22,11 @@
             <a href="#dashboard" class="logo-link">
                 <div class="logo" style="display:flex; align-items:center;">
                     <img src="assets/Vector 13.png" alt="MDM Logo" style="height:40px; width:auto;">
-                    <div class="logo-text"
-                        style="display:flex; flex-direction:column; align-items:center; margin-left:1rem;">
-                        <h1 style="margin:0;">MDM Security</h1>
-                        <p style="margin:2;">Employee Dashboard</p>
-                    </div>
+<div class="logo-text" style="display: flex; flex-direction: column; align-items: flex-start; margin-left: 1rem;">
+    <h1 style="margin: 0; font-size: 1.25rem;">MDM Security</h1>
+    <p style="margin: 0; font-size: 0.875rem; color: #f7f5f5;">Employee Dashboard</p>
+</div>
+
                 </div>
             </a>
         </div>
@@ -41,16 +42,26 @@
                 <i class="fas fa-bell"></i>
                 <span class="notification-badge">3</span>
             </div>
-            <div class="user-profile">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="user-info">
-                    <h4 id="navbarFullName">John Doe</h4>
-                    <h5 id="navbarPosition"></h5>
-                </div>
-                <div class="status-indicator"></div>
-            </div>
+            <div class="user-profile" id="userProfile">
+    <div class="user-avatar">
+        <i class="fas fa-user"></i>
+    </div>
+    <div class="user-info">
+        <h4 id="navbarFullName">John Doe</h4>
+        <p id="navbarPosition">Employee</p>
+    </div>
+    <div class="status-indicator"></div>
+
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="#profile">
+  <button id="viewProfileBtn">View Profile</button>
+</a>
+ <a href="#logout">
+  <button id="logoutBtn">Logout</button>
+</a>
+    </div>
+</div>
+
         </div>
     </header>
 
@@ -112,7 +123,7 @@
                 <div class="greeting-section">
                     <div class="greeting-content">
 
-                        <h1 id="navbarFullName">Good afternoon,👋</h1>
+                        <h1 id="FullName">Good afternoon, abc👋</h1>
                         <p>Here's your work summary for today</p>
                     </div>
                     <div class="search-section">
