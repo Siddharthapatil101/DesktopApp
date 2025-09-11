@@ -1,12 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
-// Store data in memory (simplified for local use only)
 let currentState = null;
 
-// Setup IPC handlers
 function setupIpcHandlers() {
-    // Basic state management handlers
     ipcMain.handle('save-state', async (event, state) => {
         try {
             currentState = state;
@@ -84,3 +81,4 @@ process.on('uncaughtException', (error) => {
 process.on('unhandledRejection', (error) => {
     console.error('Unhandled rejection:', error);
 });
+

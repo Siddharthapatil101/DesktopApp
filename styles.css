@@ -265,14 +265,12 @@ body {
     flex-shrink: 0;
 }
 
-/* Main Container */
 .main-container {
     display: flex;
     margin-top: 72px;
     min-height: calc(100vh - 72px);
 }
 
-/* Sidebar Styles */
 .sidebar {
     width: 260px;
     background: rgba(255, 255, 255, 0.95);
@@ -351,7 +349,6 @@ body {
     line-height: 1.2;
 }
 
-/* Main Content */
 .main-content {
     flex: 1;
     margin-left: 260px;
@@ -367,7 +364,6 @@ body {
     display: block;
 }
 
-/* Greeting Section */
 .greeting-section {
     margin-bottom: 2.5rem;
     display: flex;
@@ -401,7 +397,6 @@ body {
     line-height: 1.4;
 }
 
-/* Search Section */
 .search-section {
     flex-shrink: 0;
 }
@@ -453,7 +448,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Summary Cards */
 .summary-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -577,7 +571,6 @@ body {
     font-size: 0.625rem;
 }
 
-/* Dashboard Widgets */
 .dashboard-widgets {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
@@ -676,7 +669,6 @@ body {
     color: #166534;
 }
 
-/* Time Tracking Widget */
 .timer-display {
     text-align: center;
     margin-bottom: 1.75rem;
@@ -796,7 +788,6 @@ body {
     transform: none;
 }
 
-/* Weekly Progress Widget */
 .progress-item {
     margin-bottom: 1.5rem;
 }
@@ -881,7 +872,6 @@ body {
     line-height: 1.2;
 }
 
-/* Leave Balance Widget */
 .leave-total {
     text-align: center;
     margin-bottom: 1.75rem;
@@ -990,14 +980,12 @@ body {
     transform: translateY(-1px);
 }
 
-/* Additional Widgets Row */
 .dashboard-widgets-row {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 1.75rem;
 }
 
-/* Quick Actions Widget */
 .actions-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1039,7 +1027,6 @@ body {
     line-height: 1.2;
 }
 
-/* Recent Activity Widget */
 .activity-list {
     display: flex;
     flex-direction: column;
@@ -1132,7 +1119,6 @@ body {
     line-height: 1;
 }
 
-/* Activity Loading State */
 .activity-loading {
     display: flex;
     align-items: center;
@@ -1147,7 +1133,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Upcoming Events Widget */
 .events-list {
     display: flex;
     flex-direction: column;
@@ -1291,7 +1276,6 @@ body {
     color: #059669;
 }
 
-/* Insights Widget */
 .insight-item {
     margin-bottom: 1.5rem;
 }
@@ -1323,7 +1307,6 @@ body {
     line-height: 1.2;
 }
 
-/* Time Off Management Section */
 .section-header {
     margin-bottom: 2.5rem;
     text-align: left;
@@ -1421,7 +1404,6 @@ body {
     color: #ef4444;
 }
 
-/* Overview Section */
 .overview-section {
     background: white;
     border-radius: 16px;
@@ -1502,7 +1484,6 @@ body {
     line-height: 1.3;
 }
 
-/* Request Time Off Form */
 .form-container {
     background: white;
     border-radius: 16px;
@@ -1629,7 +1610,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Recent Requests */
 .recent-requests {
     background: white;
     border-radius: 16px;
@@ -1673,9 +1653,7 @@ body {
     color: #166534;
 }
 
-/* Attendance Section Styles */
 
-/* Attendance List */
 .attendance-list {
     display: flex;
     flex-direction: column;
@@ -1750,7 +1728,6 @@ body {
 
 
 
-/* Responsive Design */
 @media (max-width: 1024px) {
     .sidebar {
         width: 240px;
@@ -1858,7 +1835,6 @@ body {
     }
 }
 
-/* Enhanced Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1928,7 +1904,6 @@ body {
 .widget:nth-child(2) { animation-delay: 0.3s; }
 .widget:nth-child(3) { animation-delay: 0.4s; }
 
-/* Micro-interactions */
 .card-icon:hover {
     animation: pulse 0.6s ease-in-out;
 }
@@ -1941,13 +1916,11 @@ body {
     animation: bounce 1s ease-in-out;
 }
 
-/* Status Badge Styles */
 .status-badge.break {
     background: #fef3c7;
     color: #92400e;
 }
 
-/* Enhanced Notification Styles */
 .notification {
     position: fixed;
     top: 20px;
@@ -2049,7 +2022,6 @@ body {
     animation: slideOutRight 0.3s ease-in forwards;
 }
 
-/* Dark mode notification styles */
 .dark-mode .notification.success {
     background: linear-gradient(135deg, #1e4d2b 0%, #2d5a3d 100%);
     border: 1px solid #2d5a3d;
@@ -2074,7 +2046,6 @@ body {
     color: #d1ecf1;
 }
 
-/* Password Input Styles */
 .password-input-group {
     position: relative;
     display: flex;
@@ -2160,7 +2131,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Checkout Summary Styles */
 .checkout-summary {
     background: white;
     border-radius: 12px;
@@ -2209,7 +2179,6 @@ body {
     line-height: 1.2;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -2227,7 +2196,6 @@ body {
     background: #94a3b8;
 }
 
-/* Settings Section Styles */
 .settings-container {
     display: flex;
     flex-direction: column;
@@ -2380,7 +2348,6 @@ body {
     justify-content: center;
 }
 
-/* Switch Toggle Styles */
 .switch {
     position: relative;
     display: inline-block;
@@ -2427,7 +2394,6 @@ input:checked + .slider:before {
     transform: translateX(26px);
 }
 
-/* Profile Picture Upload */
 .profile-picture-upload {
     display: flex;
     align-items: center;
@@ -2453,7 +2419,6 @@ input:checked + .slider:before {
     flex-shrink: 0;
 }
 
-/* Profile Section Styles */
 .profile-container {
     display: flex;
     flex-direction: column;
@@ -2736,7 +2701,6 @@ input:checked + .slider:before {
     margin-left: 1rem;
 }
 
-/* Button Styles */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -2808,7 +2772,6 @@ input:checked + .slider:before {
     color: white;
 }
 
-/* Section Header */
 .section-header {
     margin-bottom: 3rem;
     text-align: left;
@@ -2835,7 +2798,6 @@ input:checked + .slider:before {
     text-align: left;
 }
 
-/* Form Actions Alignment */
 .form-actions {
     display: flex;
     justify-content: flex-end;
@@ -2976,7 +2938,6 @@ input:checked + .slider:before {
     }
 }
 
-/* Dark Mode Styles */
 .dark-mode {
     background-color: #0f172a;
     color: #f1f5f9;
@@ -3180,3 +3141,45 @@ input:checked + .slider:before {
     background-color: #475569;
     color: #f1f5f9;
 }
+ .logout-box {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .logout-box h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: #333;
+    }
+
+    .logout-box p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .logout-btn {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 18px 25px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .logout-btn:hover {
+      background-color: #c9302c;
+    }
+
+    
