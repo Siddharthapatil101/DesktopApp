@@ -1860,45 +1860,6 @@ function getTimeAgo(timestamp) {
     }
 }
 
-function handleSearch() {
-    const searchInput = document.getElementById('dashboardSearch');
-    const query = searchInput.value.trim().toLowerCase();
-
-    if (!query) {
-        showNotification('Search', 'Please enter a search term', 'warning');
-        return;
-    }
-
-    document.querySelectorAll('.search-highlight').forEach(el => {
-        el.style.backgroundColor = '';
-        el.classList.remove('search-highlight');
-    });
-
-    const elements = document.querySelectorAll('h1, h2, h3, p, span');
-
-    let foundElement = null;
-    elements.forEach(el => {
-        if (el.textContent.toLowerCase().trim() === query && !foundElement) {
-            foundElement = el;
-        }
-    });
-
-    if (foundElement) {
-        foundElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        foundElement.style.backgroundColor = 'yellow';
-        foundElement.classList.add('search-highlight');
-        foundElement.style.transition = 'background-color 0.5s ease';
-
-        setTimeout(() => {
-            foundElement.style.backgroundColor = '';
-            foundElement.classList.remove('search-highlight');
-        }, 2000);
-
-        showNotification('Search', `Found "${query}"`, 'success');
-    } else {
-        showNotification('Search', `No results found for "${query}"`, 'info');
-    }
-}
  function updateDateTime() {
     const timeElement = document.getElementById('currentTime');
     const dateElement = document.getElementById('currentDate');
@@ -1918,3 +1879,71 @@ function handleSearch() {
 
   setInterval(updateDateTime, 60000);
 
+
+  function showToast(message, type = "success", duration = 3000) {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 100);
+    setTimeout(() => {
+        toast.classList.remove("show");
+        setTimeout(() => container.removeChild(toast), 300);
+    }, duration);
+}
+
+// --- Search Function ---
+function handleSearch() {
+    const searchInput = document.getElementById('dashboardSearch');
+    const query = searchInput.value.trim();
+
+    if (!query) { showToast("Please enter a search term", "warning"); return; }
+
+    const dashboard = document.getElementById('dashboard');
+    if (!dashboard) { showToast("Dashboard container not found", "error"); return; }
+
+    dashboard.querySelectorAll('.search-highlight').forEach(el => {
+        const parent = el.parentNode;
+        parent.replaceChild(document.createTextNode(el.textContent), el);
+    });
+
+    const elements = dashboard.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, div');
+    const regex = new RegExp(`\\b${query}\\b`, 'gi');
+    let firstEl = null;
+
+    elements.forEach(el => {
+        if (regex.test(el.textContent)) {
+            el.innerHTML = el.innerHTML.replace(regex, match => {
+                if (!firstEl) firstEl = el;
+                return `<span class="search-highlight">${match}</span>`;
+            });
+        }
+    });
+
+    if (firstEl) firstEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    else showToast(`No results found for "${query}"`, "warning");
+}
+
+document.getElementById("searchBtn").addEventListener("click", handleSearch);
+document.getElementById("dashboardSearch").addEventListener("keypress", function (e) {
+    if (e.key === "Enter") handleSearch();
+});
+
+// --- Profile Dropdown ---
+const userProfile = document.getElementById("userProfile");
+const profileDropdown = document.getElementById("profileDropdown");
+
+userProfile.addEventListener("click", () => {
+    profileDropdown.style.display = profileDropdown.style.display === "flex" ? "none" : "flex";
+});
+
+// --- Profile Buttons ---
+document.getElementById("viewProfileBtn").addEventListener("click", () => {
+    showToast("Redirecting to profile page...", "success");
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+    showToast("Logging out...", "success");
+});
