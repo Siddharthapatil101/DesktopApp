@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:;">
+    <title>MDM Security Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles-professional.css">
+    <link rel="stylesheet" href="dashboard-perfect.css">
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="assets/Vector 13.png" alt="MDM Logo" style="height:50px; width:auto;">
+            </div>
+            <h2>MDM Security</h2>
+            <p>Employee Dashboard</p>
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
+            <div class="loading-text">Initializing application...</div>
+        </div>
+    </div>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="#dashboard" class="logo-link">
+                <div class="logo">
+                    <img src="assets/Vector 13.png" alt="MDM Logo">
+                    <div class="logo-text">
+                        <h1>MDM Security</h1>
+                        <p>Employee Dashboard</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+            <div class="alert-icon" style="position: relative; cursor: pointer;">
+                <i class="fas fa-bell" style="font-size: 20px; color: #fff;"></i>
+                <span style="
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background: red;
+                color: white;
+                font-size: 10px;
+                width: 15px;
+                height: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+            ">3</span>
+            </div>
+            <div class="header-right" style="display: flex; align-items: center; gap: 20px;">
+                <div class="current-time" id="currentTime" style="font-weight: bold; color: #fff;"></div>
+
+                <div class="header-right">
+                    <div class="user-profile">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <span class="user-name" id="userName">Guest</span>
+                                <span class="user-role" id="userRole">Employee</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="window-controls" id="windowControls">
+                        <button class="window-control minimize" id="minimizeBtn" title="Minimize">
+                            <i class="fas fa-minus"></i>
+                        </button>
+
+                        <button class="window-control close" id="closeBtn" title="Close">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+    </header>
+    <div class="app-container">
+        <aside class="sidebar">
+            <nav class="nav">
+                <div class="nav-item active">
+                    <a href="#dashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#attendance" class="nav-link">
+                        <i class="fas fa-clock nav-icon"></i>
+                        <span>Attendance</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#timeoff" class="nav-link">
+                        <i class="fas fa-calendar-alt nav-icon"></i>
+                        <span>Time Off</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#profile" class="nav-link">
+                        <i class="fas fa-user nav-icon"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#settings" class="nav-link">
+                        <i class="fas fa-cog nav-icon"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+
+
+            </nav>
+            <br /> <br /> <br /> <br /> <br />
+            <br /> <br /> <br /><br /><br /><br /><br />
+            <div class="sidebar-header"></div> <br />
+
+
+
+            <button id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+
+        </aside>
+    </div>
+
+
+    <main class="main-content">
+        <div id="dashboard" class="content-section active">
+            <div class="greeting-section">
+                <div class="greeting-content">
+                    <div class="greeting-text">
+                        <h1 id="FullName"></h1>
+                        <p>Here's your work summary for today</p>
+                    </div>
+
+
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="dashboardSearch" placeholder="Search reports or activities...">
+                            <button class="search-btn" id="searchBtn">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Total Hours</span>
+                        <div class="stat-icon primary">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="totalHours">0h 0m</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+0.5h from yesterday</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Weekly Hours</span>
+                        <div class="stat-icon success">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="weeklyHours">42.5</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+2.5h this week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Monthly Hours</span>
+                        <div class="stat-icon warning">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value" id="monthlyHours">170</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+10h this month</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Break Time</span>
+                        <div class="stat-icon warning">
+                            <i class="fas fa-coffee"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value break-time" id="breakTime">0h 0m</div>
+                    <div class="stat-change positive ">
+                      <i class="fas fa-arrow-up"></i>
+                        <span>+todays brekas </span>
+                       
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <span class="stat-title">Status</span>
+                        <div class="stat-icon info">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                    </div>
+                    <div class="stat-value attendance-status" id="attendanceRate">Absent</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Ready to check in</span>
+                    </div>
+                </div>
+            </div>
+            <div class="time-tracking">
+                <h2>Time Tracking</h2>
+                <div class="time-display">
+                    <div class="time" id="timeDisplay">00:00:00</div>
+                    <div class="status" id="statusDisplay">Ready to check in</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="checkInBtn">
+                        <i class="fas fa-play"></i>
+                        Check In
+                    </button>
+
+                    <button class="btn btn-warning" id="breakBtn" disabled>
+                        <i class="fas fa-coffee"></i>
+                        Start Break
+                    </button>
+                    <button class="btn btn-secondary" id="checkOutBtn" disabled>
+                        <i class="fas fa-stop"></i>
+                        Check Out
+                    </button>
+                </div>
+            </div>
+            <div class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul class="activity-list">
+                </ul>
+            </div>
+        </div>
+        <div id="attendance" class="content-section">
+            <div class="greeting-section">
+                <h1>Attendance Management</h1>
+                <p>Track your daily attendance and work hours</p>
+            </div>
+            <div class="attendance-overview">
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3 id="totalDaysWorked">0</h3>
+                        <p>Days Worked This Month</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3 id="totalHoursThisMonth">0h 0m</h3>
+                        <p>Total Hours This Month</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3 id="attendancePercentage">0%</h3>
+                        <p>Attendance Rate</p>
+                    </div>
+                </div>
+                <div class="overview-card">
+                    <div class="overview-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="overview-content">
+                        <h3 id="totalBreakTime">0h 0m</h3>
+                        <p>Total Break Time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="attendance-calendar-section">
+                <div class="calendar-header">
+                    <h2>Attendance Calendar</h2>
+                    <div class="calendar-controls">
+                        <button id="prevMonth" class="btn btn-outline">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="currentMonth">December 2024</span>
+                        <button id="nextMonth" class="btn btn-outline">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-grid" id="attendanceCalendar">
+                    </div>
+                </div>
+            </div>
+            <div class="attendance-history-section">
+                <h2>Recent Attendance Records</h2>
+                <div class="attendance-filters">
+                    <select id="attendanceFilter" class="filter-select">
+                        <option value="all">All Records</option>
+                        <option value="this-week">This Week</option>
+                        <option value="this-month">This Month</option>
+                        <option value="last-month">Last Month</option>
+                    </select>
+                    <button id="exportAttendance" class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+                <div class="attendance-table-container">
+                    <table class="attendance-table" id="attendanceTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Check In</th>
+                                <th>Check Out</th>
+                                <th>Total Hours</th>
+                                <th>Break Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="attendanceTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="timeoff" class="content-section">
+            <div class="greeting-section">
+                <h1>Time Off Management</h1>
+                <p>Request and manage your time off</p>
+            </div>
+
+        </div>
+        <div id="profile" class="content-section">
+            <div class="greeting-section">
+                <h1>Profile Settings</h1>
+                <p>Manage your personal information</p>
+            </div>
+<div class="settings-container">
+    <div class="settings-cards-wrapper">
+
+        <div class="settings-card">
+            <div class="settings-card-header">
+                <p>Personal Information</p>
+            </div>
+            <div class="settings-card-content">
+                <form class="settings-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" class="form-control" value="abc" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" value="abc@company.com" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" class="form-control" value="+91 9876543212" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <input type="text" class="form-control" value="Software Engineering" readonly>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary edit-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button type="submit" class="btn btn-success save-btn" disabled>
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-card-header">
+                <p>Work Information</p>
+            </div>
+            <div class="settings-card-content">
+                <form class="settings-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Employee ID</label>
+                            <input type="text" class="form-control" value="EMP12345" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Designation</label>
+                            <input type="text" class="form-control" value="Software Developer" readonly>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Joining Date</label>
+                            <input type="date" class="form-control" value="2023-01-01" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Work Location</label>
+                            <input type="text" class="form-control" value="pune" readonly>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary edit-btn">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button type="submit" class="btn btn-success save-btn" disabled>
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        </div>
+        </div>
+
+        <div id="settings" class="content-section">
+            <div class="greeting-section">
+                <h1>Application Settings</h1>
+                <p>Configure your application preferences</p>
+            </div>
+        </div>
+        
+        </div>
+    </main>
+    </div>
+    <script src="renderer-simple.js"></script>
+
+</body>
+
+</html>

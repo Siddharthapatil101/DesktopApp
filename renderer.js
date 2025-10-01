@@ -1,46 +1,73 @@
-const { ipcRenderer } = require('electron');
-
+const electronAPI = window.electronAPI;
 let timer = null;
 let startTime = null;
 let breakStartTime = null;
 let totalBreakTime = 0;
 let isCheckedIn = false;
 let isOnBreak = false;
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM loaded, initializing app...');
-    initializeApp();
-    setupEventListeners();
-    startClock();
-    updateGreeting();
+    showLoadingScreen();
+    setTimeout(() => {
+        console.log('Fallback: Force hiding loading screen after timeout');
+        hideLoadingScreen();
+        initializeUI();
+    }, 10000);
+    setTimeout(() => {
+        console.log('Starting app initialization...');
+        initializeApp();
+        setupEventListeners();
+        setupWindowControls();
+        startClock();
+        updateGreeting();
+        setTimeout(() => {
+            console.log('Hiding loading screen...');
+            hideLoadingScreen();
+            initializeUI();
+        }, 2000);
+    }, 1000);
 });
-
 function initializeApp() {
-    ipcRenderer.invoke('get-saved-state').then(savedState => {
-        if (savedState && savedState.data) {
-            isCheckedIn = savedState.data.isCheckedIn;
-            startTime = savedState.data.startTime ? new Date(savedState.data.startTime) : null;
-            totalBreakTime = savedState.data.totalBreakTime || 0;
-            
-            if (isCheckedIn) {
-                startTimer();
+    if (window.electronAPI) {
+        electronAPI.getSavedState().then(savedState => {
+            if (savedState && savedState.data) {
+                isCheckedIn = savedState.data.isCheckedIn;
+                startTime = savedState.data.startTime ? new Date(savedState.data.startTime) : null;
+                totalBreakTime = savedState.data.totalBreakTime || 0;
+                
+                if (isCheckedIn) {
+                    startTimer();
+                }
             }
+            updateButtonStates();
+            updateStatistics();
+        }).catch(console.error);
+    } else {
+        console.log('Electron API not available, checking localStorage...');
+        try {
+            const savedState = localStorage.getItem('mdm-security-state');
+            if (savedState) {
+                const state = JSON.parse(savedState);
+                isCheckedIn = state.isCheckedIn;
+                startTime = state.startTime ? new Date(state.startTime) : null;
+                totalBreakTime = state.totalBreakTime || 0;
+                if (isCheckedIn) {
+                    startTimer();
+                }
+            }
+        } catch (error) {
+            console.error('Error loading state from localStorage:', error);
         }
         updateButtonStates();
         updateStatistics();
-    }).catch(console.error);
+    }
 }
-
 function setupEventListeners() {
     console.log('Setting up event listeners...');
-    
-    
     setupNavigation();
- 
     const checkInBtn = document.querySelector('.btn-checkin');
     const breakBtn = document.querySelector('.btn-break');
     const checkoutBtn = document.querySelector('.btn-checkout');
-    
     if (checkInBtn) {
         checkInBtn.addEventListener('click', handleCheckIn);
     }
@@ -52,34 +79,24 @@ function setupEventListeners() {
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', handleCheckOut);
     }
-    
-   
     const requestLeaveBtn = document.querySelector('.btn-request-leave');
     if (requestLeaveBtn) {
         requestLeaveBtn.addEventListener('click', () => {
             switchTab('request-timeoff');
         });
     }
-    
-    
     const actionBtns = document.querySelectorAll('.action-btn');
     actionBtns.forEach(btn => {
         btn.addEventListener('click', handleQuickAction);
     });
-    
-    
     const timeoffForm = document.querySelector('.timeoff-form');
     if (timeoffForm) {
         timeoffForm.addEventListener('submit', handleTimeOffRequest);
     }
-    
-    
     const tabBtns = document.querySelectorAll('.tab-btn');
     tabBtns.forEach(btn => {
         btn.addEventListener('click', handleTabSwitch);
     });
-    
-   
     setupSettingsEventListeners();
 
     setupDashboardEventListeners();
@@ -783,7 +800,12 @@ async function saveState() {
     };
     
     try {
-        await ipcRenderer.invoke('save-state', state);
+        if (window.electronAPI) {
+            await electronAPI.saveState(state);
+        } else {
+            // Fallback: save to localStorage
+            localStorage.setItem('mdm-security-state', JSON.stringify(state));
+        }
     } catch (error) {
         console.error('Failed to save state:', error);
     }
@@ -1947,3 +1969,147 @@ document.getElementById("viewProfileBtn").addEventListener("click", () => {
 document.getElementById("logoutBtn").addEventListener("click", () => {
     showToast("Logging out...", "success");
 });
+
+// UI Initialization
+function initializeUI() {
+    console.log('Initializing UI elements...');
+    
+    // Ensure all sections are properly displayed
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        if (section.id === 'dashboard') {
+            section.classList.add('active');
+        } else {
+            section.classList.remove('active');
+        }
+    });
+    
+    // Initialize navigation
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        if (item.querySelector('a[href="#dashboard"]')) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
+    });
+    
+    // Ensure buttons are properly styled
+    updateButtonStates();
+    
+    // Update statistics
+    updateStatistics();
+    
+    // Test that main content is visible
+    const dashboard = document.getElementById('dashboard');
+    if (dashboard) {
+        console.log('Dashboard section found and active');
+    } else {
+        console.error('Dashboard section not found!');
+    }
+    
+    console.log('UI initialization complete');
+}
+
+// Loading Screen Functions
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) {
+        loadingScreen.classList.remove('hidden');
+    }
+}
+
+function hideLoadingScreen() {
+    console.log('hideLoadingScreen called');
+    const loadingScreen = document.getElementById('loadingScreen');
+    console.log('Loading screen element:', loadingScreen);
+    
+    if (loadingScreen) {
+        console.log('Adding hidden class to loading screen');
+        loadingScreen.classList.add('hidden');
+        
+        // Show main content
+        const mainContent = document.querySelector('.main-content');
+        const header = document.querySelector('.header');
+        const sidebar = document.querySelector('.sidebar');
+        
+        if (mainContent) {
+            mainContent.classList.add('loaded');
+            console.log('Main content shown');
+        }
+        
+        if (header) {
+            header.classList.add('loaded');
+            console.log('Header shown');
+        }
+        
+        if (sidebar) {
+            sidebar.classList.add('loaded');
+            console.log('Sidebar shown');
+        }
+        
+        // Force hide after a short delay
+        setTimeout(() => {
+            console.log('Force hiding loading screen');
+            loadingScreen.style.display = 'none';
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.visibility = 'hidden';
+            
+            // Remove from DOM after animation
+            setTimeout(() => {
+                if (loadingScreen.parentNode) {
+                    console.log('Removing loading screen from DOM');
+                    loadingScreen.parentNode.removeChild(loadingScreen);
+                }
+            }, 100);
+        }, 100);
+    } else {
+        console.log('Loading screen element not found');
+    }
+}
+
+// Window Controls Setup
+function setupWindowControls() {
+    // Only show window controls on Windows/Linux
+    if (window.electronAPI) {
+        const minimizeBtn = document.getElementById('minimizeBtn');
+        const maximizeBtn = document.getElementById('maximizeBtn');
+        const closeBtn = document.getElementById('closeBtn');
+
+        if (minimizeBtn) {
+            minimizeBtn.addEventListener('click', () => {
+                try {
+                    electronAPI.minimizeWindow();
+                } catch (error) {
+                    console.error('Error minimizing window:', error);
+                }
+            });
+        }
+
+        if (maximizeBtn) {
+            maximizeBtn.addEventListener('click', () => {
+                try {
+                    electronAPI.maximizeWindow();
+                } catch (error) {
+                    console.error('Error maximizing window:', error);
+                }
+            });
+        }
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                try {
+                    electronAPI.closeWindow();
+                } catch (error) {
+                    console.error('Error closing window:', error);
+                }
+            });
+        }
+    } else {
+        // Hide window controls on macOS
+        const windowControls = document.getElementById('windowControls');
+        if (windowControls) {
+            windowControls.style.display = 'none';
+        }
+    }
+}

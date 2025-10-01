@@ -90,10 +90,8 @@ function updateAttendanceState(updates) {
     
     updateStats();
     
-    if (typeof require !== 'undefined') {
-        const { ipcRenderer } = require('electron');
-        
-        ipcRenderer.invoke('save-state', AppState.attendance).then(result => {
+    if (typeof window !== 'undefined' && window.electronAPI) {
+        window.electronAPI.saveState(AppState.attendance).then(result => {
             if (!result.success) {
                 console.error('Failed to save state:', result.error);
             }

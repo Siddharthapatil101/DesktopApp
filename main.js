@@ -1,84 +1,50 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
+const MDMApp = require('./src/main/app');
+const mdmApp = new MDMApp();
 
-let currentState = null;
+// Import device registration (assuming you wrote it in backend.js)
+const { getDeviceId } = require('./deviceIdentifier.js');
+const { MongoClient } = require('mongodb');
 
-function setupIpcHandlers() {
-    ipcMain.handle('save-state', async (event, state) => {
-        try {
-            currentState = state;
-            return { success: true };
-        } catch (error) {
-            console.error('Error in save-state:', error);
-            return { success: false, error: error.message };
-        }
-    });
+// MongoDB config
+const MONGO_URL = "mongodb://localhost:27017";
+const DB_NAME = "your_db";
 
-    ipcMain.handle('get-saved-state', async () => {
-        try {
-            return { success: true, data: currentState };
-        } catch (error) {
-            console.error('Error in get-saved-state:', error);
-            return { success: false, error: error.message };
-        }
-    });
-}
+async function registerDevice() {
+    const { deviceId, macAddress } = getDeviceId();
+    console.log("Device ID:", deviceId, "MAC:", macAddress);
 
-function createWindow() {
-    const win = new BrowserWindow({
-        width: 1200,
-        height: 800,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
-        }
-    });
-
-    win.loadFile('register.html'); 
-    if (process.env.NODE_ENV === 'development') {
-        win.webContents.openDevTools();
-    }
-
-    win.webContents.on('crashed', (event) => {
-        console.error('Window crashed:', event);
-    });
-
-    win.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
-        console.error('Failed to load:', errorCode, errorDescription);
-    });
-}
-
-app.whenReady().then(async () => {
+    const client = new MongoClient(MONGO_URL);
     try {
-        console.log('Setting up IPC handlers...');
-        setupIpcHandlers();
-        console.log('IPC handlers setup completed');
-        
-        console.log('Creating main window...');
-        createWindow();
-        console.log('Main window created');
+        await client.connect();
+        const db = client.db(DB_NAME);
+        const devices = db.collection("devices");
 
-        app.on('activate', () => {
-            if (BrowserWindow.getAllWindows().length === 0) {
-                createWindow();
-            }
-        });
-    } catch (error) {
-        console.error('Error during app initialization:', error);
+        await devices.updateOne(
+            { _id: deviceId },
+            { $set: { macAddress, registeredAt: new Date() } },
+            { upsert: true }
+        );
+
+        console.log("Device registered successfully!");
+    } catch (err) {
+        console.error("Failed to register device:", err);
+    } finally {
+        await client.close();
     }
-});
+}
 
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
-});
+// Register device asynchronously after app starts
+(async () => {
+    await registerDevice();
+})();
 
+// Global error handling
 process.on('uncaughtException', (error) => {
-    console.error('Uncaught exception:', error);
+    console.error('Uncaught Exception at top level:', error);
+    process.exit(1);
 });
 
-process.on('unhandledRejection', (error) => {
-    console.error('Unhandled rejection:', error);
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at top level:', reason);
+    process.exit(1);
 });
-

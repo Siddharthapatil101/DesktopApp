@@ -4,20 +4,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' https:;">
     <title>MDM Security Dashboard</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-professional.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <div id="toastContainer" style="position: fixed; top: 1rem; right: 1rem; z-index: 9999;"></div>
+
+<!-- Loading Screen -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="loading-content">
+        <div class="loading-logo">
+            <img src="assets/Vector 13.png" alt="MDM Logo" style="height:60px; width:auto;">
+        </div>
+        <h2>MDM Security</h2>
+        <p>Employee Dashboard</p>
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+        </div>
+        <div class="loading-text">Initializing application...</div>
+    </div>
+</div>
 
 </head>
 
 <body>
     <header class="header">
+        <!-- Custom Window Controls for Windows/Linux -->
+        <div class="window-controls" id="windowControls">
+            <button class="window-control minimize" id="minimizeBtn" title="Minimize">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button class="window-control maximize" id="maximizeBtn" title="Maximize">
+                <i class="fas fa-square"></i>
+            </button>
+            <button class="window-control close" id="closeBtn" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
         <div class="header-left">
             <a href="#dashboard" class="logo-link">
                 <div class="logo" style="display:flex; align-items:center;">
@@ -1088,9 +1117,9 @@
 
         </main>
     </div>
-    <script src="script.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="renderer.js"></script>
+    <!-- Simplified professional architecture -->
+    <script src="renderer-simple.js"></script>
     <script>
 
         const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');

@@ -1,312 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Desktop Register</title>
- 
+  <title>Employee Registration</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #ffffff;
-      min-height: 100vh;
+      background: #f3f4f6;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       padding: 20px;
     }
 
     .register-container {
-      background: #ffffff;
-      border: 2px solid #e1e5e9;
-      border-radius: 20px;
-      padding: 40px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      background: #fff;
+      border-radius: 24px;
+      padding: 50px 40px;
+      max-width: 450px;
       width: 100%;
-      max-width: 420px;
-      animation: slideUp 0.6s ease-out;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e7eb;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    .register-container:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.12);
     }
 
     .register-header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .register-header::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border-radius: 2px;
     }
 
     .register-header h2 {
-      color: #333;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 8px;
     }
 
     .register-header p {
       color: #666;
-      font-size: 14px;
-      opacity: 0.8;
+      font-size: 16px;
     }
 
     .form-group {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .form-group input {
       width: 100%;
-      padding: 15px 45px 15px 20px;
+      padding: 18px 50px 18px 20px;
       border: 2px solid #e1e5e9;
-      border-radius: 12px;
+      border-radius: 16px;
       font-size: 16px;
-      transition: all 0.3s ease;
       background: #f8f9fa;
+      transition: all 0.3s ease;
+      outline: none;
     }
 
     .form-group input:focus {
-      outline: none;
       border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
 
-    .form-error {
-      font-size: 13px;
-      color: #e63946;
-      margin-top: 4px;
-      display: none;
-    }
-
-    .toggle-password {
+    .form-group .input-icon {
       position: absolute;
-      right: 12px;
+      right: 18px;
       top: 50%;
       transform: translateY(-50%);
+      color: #aaa;
+      font-size: 18px;
       cursor: pointer;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #f1f1f1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 14px;
-      color: #555;
-      transition: 0.3s;
+      z-index: 2;
     }
 
-    .toggle-password:hover {
-      background: #667eea;
-      color: white;
+    .error-message {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+      font-weight: 500;
     }
 
     .register-btn {
       width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      border-radius: 12px;
+      padding: 18px 24px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
       color: white;
+      border: none;
+      border-radius: 16px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
     .register-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+      box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
     }
 
-    .login-link {
-      text-align: center;
-      margin-top: 25px;
-      color: #666;
-      font-size: 14px;
+    .register-btn:active {
+      transform: translateY(0);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
     }
 
-    .login-link a {
-      color: #667eea;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-
-    .login-link a:hover {
-      color: #764ba2;
-      text-decoration: underline;
-    }
-
-    .success-message {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 15px;
-      font-weight: 600;
-      color: #28a745;
-      display: none;
-    }
-
-    .register-btn.loading {
-      opacity: 0.8;
-      cursor: not-allowed;
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
       position: relative;
     }
 
-    .register-btn.loading::after {
+    .divider::before,
+    .divider::after {
       content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border: 2px solid transparent;
-      border-top: 2px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #d1d5db, transparent);
     }
 
-    @keyframes spin {
-      0% { transform: translateY(-50%) rotate(0deg); }
-      100% { transform: translateY(-50%) rotate(360deg); }
+    .divider span {
+      padding: 0 20px;
+      color: #9ca3af;
+      font-size: 14px;
+      font-weight: 500;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+    }
+
+    .register-link {
+      text-align: center;
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+
+    .register-link a {
+      color: #667eea;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+
+    #approvalMessage {
+      display: none;
+      margin-bottom: 20px;
+      padding: 15px 20px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="register-container">
     <div class="register-header">
-      <h2>Create Account</h2>
-      <p>Join us today and get started!</p>
+      <h2>Register Employee</h2>
+      <p>Create your employee account</p>
     </div>
-    
+
     <form id="registerForm">
       <div class="form-group">
-        <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
-        <div class="form-error" id="nameError">Full name is required</div>
+        <input type="text" id="employeeId" name="employeeId" placeholder="Employee ID" required>
+        <i class="fa-solid fa-id-badge input-icon"></i>
+        <div class="error-message" id="employeeIdError">Employee ID is required</div>
       </div>
+
       <div class="form-group">
-        <input type="email" id="email" name="email" placeholder="Email Address" required>
-        <div class="form-error" id="emailError">Enter a valid email</div>
+        <input type="email" id="employeeEmail" name="employeeEmail" placeholder="Employee Email" required>
+        <i class="fa-solid fa-envelope input-icon"></i>
+        <div class="error-message" id="emailError">Enter a valid company email</div>
       </div>
-        <div class="form-group">
-        <input type="text" id="position" name="position" placeholder="Position" required>
-        <div class="form-error" id="positionError">position is required</div>
-      </div>
-      
+
       <div class="form-group">
-        <input type="password" id="password" name="password" placeholder="Password" required minlength="6">
-        <span class="toggle-password" data-target="password"><i class="fa-solid fa-eye"></i></span>
-        <div class="form-error" id="passwordError">Password must be at least 6 characters</div>
+        <input type="text" id="projectName" name="projectName" placeholder="Project Name" required>
+        <i class="fa-solid fa-briefcase input-icon"></i>
+        <div class="error-message" id="projectError">Project name is required</div>
       </div>
+
       <div class="form-group">
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-        <span class="toggle-password" data-target="confirmPassword"><i class="fa-solid fa-eye"></i></span>
-        <div class="form-error" id="confirmError">Passwords do not match</div>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <i class="fa-solid fa-lock input-icon" id="togglePassword"></i>
+        <div class="error-message" id="passwordError">Password must be at least 6 characters</div>
       </div>
-      <button type="submit" class="register-btn" id="submitBtn">Create Account</button>
+
+      <div id="approvalMessage">
+        <i class="fa-solid fa-circle-check" style="margin-right:8px;"></i>
+        Registration successful! Your account is pending admin approval.
+      </div>
+      <div id="deviceIdContainer"
+        style="display:none; margin-top:10px; font-size:14px; color:#333; text-align:center; word-break:break-all;">
+      </div>
+
+
+      <button type="submit" class="register-btn">Register</button>
     </form>
-    
-    <div class="success-message" id="successMsg">✅ Account created successfully! Redirecting...</div>
-    
-    <div class="login-link">
-      Already have an account? <a href="login.html">Sign In</a>
+
+    <div class="divider">
+      <span>or</span>
+    </div>
+
+    <div class="register-link">
+      Already have an account? <a href="login.html">Login</a>
     </div>
   </div>
 
   <script>
-    const form = document.getElementById('registerForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const successMsg = document.getElementById('successMsg');
+    const registerForm = document.getElementById('registerForm');
+    const employeeId = document.getElementById('employeeId');
+    const employeeEmail = document.getElementById('employeeEmail');
+    const projectName = document.getElementById('projectName');
+    const password = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
 
-    form.addEventListener('submit', function(e) {
+    const employeeIdError = document.getElementById('employeeIdError');
+    const emailError = document.getElementById('emailError');
+    const projectError = document.getElementById('projectError');
+    const passwordError = document.getElementById('passwordError');
+    const approvalMessage = document.getElementById('approvalMessage');
+
+    const blockedDomains = ["gmail.com", "yahoo.com", "hotmail.com"];
+
+    togglePassword.addEventListener('click', () => {
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
+      togglePassword.classList.toggle('fa-lock');
+      togglePassword.classList.toggle('fa-unlock');
+    });
+
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    registerForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      let isValid = true;
+
+      employeeIdError.style.display = 'none';
+      emailError.style.display = 'none';
+      projectError.style.display = 'none';
+      passwordError.style.display = 'none';
+      approvalMessage.style.display = 'none';
+
+      if (!employeeId.value.trim()) {
+        isValid = false;
+        employeeIdError.style.display = 'block';
+      }
+
+      if (!employeeEmail.value || !validateEmail(employeeEmail.value)) {
+        isValid = false;
+        emailError.textContent = 'Enter a valid email';
+        emailError.style.display = 'block';
+      } else {
+        const domain = employeeEmail.value.split('@')[1].toLowerCase();
+        if (blockedDomains.includes(domain)) {
+          isValid = false;
+          emailError.textContent = `Emails from ${domain} are not allowed`;
+          emailError.style.display = 'block';
+        }
+      }
+
+      if (!projectName.value.trim()) {
+        isValid = false;
+        projectError.style.display = 'block';
+      }
+
+      if (!password.value || password.value.length < 6) {
+        isValid = false;
+        passwordError.style.display = 'block';
+      }
+
+      if (isValid) {
+        approvalMessage.style.display = 'block';
+        approvalMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        registerForm.reset();
+      }
+    });
+
+    employeeId.addEventListener('input', () => { employeeIdError.style.display = 'none'; });
+    employeeEmail.addEventListener('input', () => { emailError.style.display = 'none'; });
+    projectName.addEventListener('input', () => { projectError.style.display = 'none'; });
+    password.addEventListener('input', () => { passwordError.style.display = 'none'; });
+    const { ipcRenderer } = require('electron');
+
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
       e.preventDefault();
 
-  let valid = true;
+      const employeeId = document.getElementById('employeeId').value;
 
-  const fullName = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const position = document.getElementById('position').value.trim();
-  const password = document.getElementById('password').value;
-  const confirmPassword = document.getElementById('confirmPassword').value;
-    const profilephotoInput = document.getElementById('profilephoto');
-    let profilephotoData = '';
-   
-      if (fullName.length < 3) {
-        document.getElementById('nameError').style.display = 'block';
-        valid = false;
-      }
-
-      if (!/^[^@]+@[^@]+\.[a-z]{2,}$/i.test(email)) {
-        document.getElementById('emailError').style.display = 'block';
-        valid = false;
-      }
-
-      if (password.length < 6) {
-        document.getElementById('passwordError').style.display = 'block';
-        valid = false;
-      }
-
-      if (password !== confirmPassword) {
-        document.getElementById('confirmError').style.display = 'block';
-        valid = false;
-      }
-
-      if (!valid) return;
-
-  submitBtn.classList.add('loading');
-  submitBtn.textContent = 'Creating Account...';
-
-  localStorage.setItem('fullName', fullName);
-  localStorage.setItem('position', position);
-  localStorage.setItem('email', email);
-  // Save all registration data as an object for profile section
-  const regData = {
-    fullName,
-    email,
-    position,
-    profilephoto: profilephotoData,
-    password
-  };
-  localStorage.setItem('profileData', JSON.stringify(regData));
-
-      setTimeout(() => {
-        submitBtn.classList.remove('loading');
-        submitBtn.textContent = 'Create Account';
-        successMsg.style.display = "block";
-
-        setTimeout(() => {
-          window.location.href = 'login.html';
-        }, 1500);
-      }, 2000);
+      ipcRenderer.invoke('register-device', employeeId)
+        .then(() => {
+          document.getElementById('approvalMessage').style.display = 'block';
+        })
+        .catch(err => console.error(err));
     });
 
-    
-    document.querySelectorAll('.toggle-password').forEach(icon => {
-      icon.addEventListener('click', () => {
-        const targetId = icon.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        const iconElement = icon.querySelector('i');
-
-        if (input.type === "password") {
-          input.type = "text";
-          iconElement.classList.remove('fa-eye');
-          iconElement.classList.add('fa-eye-slash');
-        } else {
-          input.type = "password";
-          iconElement.classList.remove('fa-eye-slash');
-          iconElement.classList.add('fa-eye');
-        }
-      });
-    });
   </script>
 </body>
+
 </html>

@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDM Security Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h2>MDM Security</h2>
+            <p>Employee Dashboard</p>
+            <div class="spinner"></div>
+            <div class="loading-text">Initializing application...</div>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+    <header class="header">
+        <div class="header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <a href="#dashboard" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>MDM Security</h1>
+                    <p>Employee Dashboard</p>
+                </div>
+            </a>
+        </div>
+        <div class="header-right">
+            <div class="time-display">
+                <i class="fas fa-clock"></i>
+                <span id="currentTime">10:30 AM</span>
+            </div>
+            <div class="date-display">
+                <span id="currentDate">Sep 22, 2025</span>
+            </div>
+            <div class="notification-bell">
+                <i class="fas fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </div>
+            <div class="user-profile" id="userProfile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <h4>John Doe</h4>
+                    <p>Employee</p>
+                </div>
+                <div class="status-indicator"></div>
+            </div>
+            <div class="window-controls">
+                <button class="control-btn" id="minBtn" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button class="control-btn" id="maxBtn" title="Maximize">
+                    <i class="fas fa-square"></i>
+                </button>
+                <button class="control-btn close-btn" id="closeBtn" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+        </div>
+    </header>
+    
+    <div class="main-container">
+        <aside class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <h6>MAIN</h6>
+                    <ul class="nav-list">
+                        <li class="nav-item active">
+                            <a href="#dashboard" class="nav-link">
+                                <i class="fas fa-th-large"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#timeoff" class="nav-link">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Time Off</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#attendance" class="nav-link">
+                                <i class="fas fa-clock"></i>
+                                <span>Attendance</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h6>TOOLS</h6>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="#settings" class="nav-link">
+                                <i class="fas fa-cog"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#profile" class="nav-link">
+                                <i class="fas fa-user"></i>
+                                <span>Profile</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#logout" class="nav-link">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div id="dashboard" class="content-section active">
+                <div class="greeting-section">
+                    <div class="greeting-content">
+                        <h1>Good afternoon, John 👋</h1>
+                        <p>Here's your work summary for today</p>
+                    </div>
+                    <div class="search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search reports or activities...">
+                            <button class="search-btn">
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="summary-cards fade-in">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>8h 2m</h2>
+                            <p>Today's Work</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+12%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>95%</h2>
+                            <p>Attendance Rate</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+3%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-umbrella"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>15</h2>
+                            <p>Days Available</p>
+                            <div class="trend neutral">
+                                <span>No change</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>32h</h2>
+                            <p>This Week</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-widgets fade-in">
+                    <div class="widget time-tracking">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-clock"></i>
+                                <h3>Time Tracking</h3>
+                            </div>
+                            <p>Track your work hours</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="timer-display">
+                                <div class="timer" id="workTimer">08:02:52</div>
+                                <p>CURRENT SESSION</p>
+                            </div>
+                            <div class="timer-actions">
+                                <button class="btn btn-checkin">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                    <span>Check In</span>
+                                </button>
+                                <button class="btn btn-break" disabled>
+                                    <i class="fas fa-pause"></i>
+                                    <span>Break</span>
+                                </button>
+                                <button class="btn btn-checkout" disabled>
+                                    <i class="fas fa-stop"></i>
+                                    <span>Check Out</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget weekly-progress">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-chart-bar"></i>
+                                <h3>Weekly Progress</h3>
+                            </div>
+                            <p>Your work progress this week</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Work Hours</span>
+                                    <span>32h / 40h</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%"></div>
+                                </div>
+                                <span class="progress-percentage">80%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Break Time</span>
+                                    <span>2h / 4h</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 50%"></div>
+                                </div>
+                                <span class="progress-percentage">50%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Overtime</span>
+                                    <span>4h</span>
+                                </div>
+                                <div class="progress-bar overtime">
+                                    <div class="progress-fill"
+                                        style="width: 25%; background: linear-gradient(90deg, var(--warning-color), #fbbf24);">
+                                    </div>
+                                </div>
+                                <span class="progress-percentage">+10%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="widget leave-balance">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-umbrella"></i>
+                                <h3>Leave Balance</h3>
+                            </div>
+                            <p>Your available time off</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="leave-total">
+                                <h2>15</h2>
+                                <p>DAYS AVAILABLE</p>
+                            </div>
+                            <div class="leave-types">
+                                <div class="leave-type">
+                                    <i class="fas fa-plane"></i>
+                                    <div class="leave-info">
+                                        <span>Vacation</span>
+                                        <span>10 days</span>
+                                    </div>
+                                </div>
+                                <div class="leave-type">
+                                    <i class="fas fa-heartbeat"></i>
+                                    <div class="leave-info">
+                                        <span>Sick Leave</span>
+                                        <span>3 days</span>
+                                    </div>
+                                </div>
+                                <div class="leave-type">
+                                    <i class="fas fa-user"></i>
+                                    <div class="leave-info">
+                                        <span>Personal</span>
+                                        <span>2 days</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-request-leave">
+                                <i class="fas fa-plus"></i>
+                                <span>Request Leave</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-widgets-row fade-in">
+                    <div class="widget quick-actions">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-bolt"></i>
+                                <h3>Quick Actions</h3>
+                            </div>
+                            <p>Common tasks and shortcuts</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="actions-grid">
+                                <button class="action-btn">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>Request Time Off</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span>View Schedule</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Report Issue</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-headset"></i>
+                                    <span>Contact HR</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>View Reports</span>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-file-download"></i>
+                                    <span>Download</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget recent-activity">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-history"></i>
+                                <h3>Recent Activity</h3>
+                            </div>
+                            <p>Your latest work activities</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Checked In</strong></p>
+                                        <span>Today at 9:00 AM</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-calendar-check"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Time Off Approved</strong></p>
+                                        <span>Yesterday at 3:30 PM</span>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="fas fa-file-alt"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <p><strong>Report Submitted</strong></p>
+                                        <span>Sep 20 at 11:15 AM</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget insights">
+                        <div class="widget-header">
+                            <div class="widget-title">
+                                <i class="fas fa-lightbulb"></i>
+                                <h3>Insights</h3>
+                            </div>
+                            <p>Work patterns and recommendations</p>
+                        </div>
+                        <div class="widget-content">
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Productivity Score</span>
+                                    <span>↑ +5% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"
+                                        style="width: 92%; background: linear-gradient(90deg, var(--success-color), #34d399);">
+                                    </div>
+                                </div>
+                                <span class="progress-percentage">92%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>Break Efficiency</span>
+                                    <span>↑ +12% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"
+                                        style="width: 78%; background: linear-gradient(90deg, #3b82f6, #60a5fa);"></div>
+                                </div>
+                                <span class="progress-percentage">78%</span>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-label">
+                                    <span>On-time Arrival</span>
+                                    <span>↑ +3% from last week</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill"
+                                        style="width: 95%; background: linear-gradient(90deg, var(--primary-color), var(--primary-light));">
+                                    </div>
+                                </div>
+                                <span class="progress-percentage">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="timeoff" class="content-section">
+                <div class="greeting-section">
+                    <div class="greeting-content">
+                        <h1>Time Off Management</h1>
+                        <p>Request and manage your time off</p>
+                    </div>
+                </div>
+                <div class="summary-cards fade-in">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>79.5%</h2>
+                            <p>Approval Rate</p>
+                            <div class="trend up">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>+2.3%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>1.2 days</h2>
+                            <p>Avg. Response Time</p>
+                            <div class="trend down">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>-0.3 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>18</h2>
+                            <p>Active Requests</p>
+                            <div class="trend neutral">
+                                <span>No change</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget fade-in">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <i class="fas fa-calendar-plus"></i>
+                            <h3>Request Time Off</h3>
+                        </div>
+                        <p>Submit a new time off request</p>
+                    </div>
+                    <div class="widget-content">
+                        <form class="request-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Leave Type</label>
+                                    <select class="form-input">
+                                        <option>Select leave type</option>
+                                        <option>Vacation</option>
+                                        <option>Sick Leave</option>
+                                        <option>Personal</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Start Date</label>
+                                    <input type="date" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>End Date</label>
+                                    <input type="date" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label>Duration</label>
+                                    <input type="text" class="form-input" placeholder="e.g., 3 days">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <textarea class="form-input" rows="3"
+                                    placeholder="Please provide a reason for your time off..."></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn"
+                                    style="background: var(--secondary-color); color: white;">
+                                    <i class="fas fa-save"></i>
+                                    <span>Save Draft</span>
+                                </button>
+                                <button type="submit" class="btn"
+                                    style="background: var(--primary-color); color: white;">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>Submit Request</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="attendance" class="content-section">
+                <div class="greeting-section">
+                    <div class="greeting-content">
+                        <h1>Attendance</h1>
+                        <p>Your attendance records and statistics</p>
+                    </div>
+                </div>
+
+                <div class="summary-cards fade-in">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>22</h2>
+                            <p>Days Present</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>176h</h2>
+                            <p>Total Hours</p>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="card-content">
+                            <h2>95.7%</h2>
+                            <p>Attendance Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget fade-in">
+                    <div class="widget-header">
+                        <div class="widget-title">
+                            <i class="fas fa-history"></i>
+                            <h3>Recent Attendance</h3>
+                        </div>
+                        <p>Your last 5 days of attendance</p>
+                    </div>
+                    <div class="widget-content">
+                        <div class="attendance-records">
+                            <div class="attendance-record">
+                                <div class="record-date">
+                                    <span class="day">Today</span>
+                                    <span class="date">Sep 22, 2025</span>
+                                </div>
+                                <div class="record-times">
+                                    <span class="checkin">09:00 AM</span>
+                                    <span class="checkout">06:00 PM</span>
+                                </div>
+                                <div class="record-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                            <div class="attendance-record">
+                                <div class="record-date">
+                                    <span class="day">Yesterday</span>
+                                    <span class="date">Sep 21, 2025</span>
+                                </div>
+                                <div class="record-times">
+                                    <span class="checkin">08:45 AM</span>
+                                    <span class="checkout">05:30 PM</span>
+                                </div>
+                                <div class="record-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                            <div class="attendance-record">
+                                <div class="record-date">
+                                    <span class="day">Friday</span>
+                                    <span class="date">Sep 20, 2025</span>
+                                </div>
+                                <div class="record-times">
+                                    <span class="checkin">09:15 AM</span>
+                                    <span class="checkout">06:15 PM</span>
+                                </div>
+                                <div class="record-status">
+                                    <span class="status-badge present">Present</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
